@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session {{ session.session_id|truncatechars:16 }} — Cedar</title>
+    <style>
+        :root { --bg:#0f1117; --surface:#1a1d27; --border:#2a2d3a; --text:#e4e4e7; --dim:#9ca3af; --accent:#10b981; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+        .header { background:var(--surface); border-bottom:1px solid var(--border); padding:1rem 2rem; }
+        .header a { color:var(--accent); text-decoration:none; margin-right:1rem; }
+        .container { max-width:800px; margin:0 auto; padding:2rem; }
+        .meta { color:var(--dim); font-size:0.85rem; margin-bottom:2rem; }
+        .message { margin-bottom:1rem; padding:1rem; border-radius:12px; }
+        .message.user { background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); }
+        .message.assistant { background:var(--surface); border:1px solid var(--border); }
+        .message .role { font-size:0.75rem; text-transform:uppercase; color:var(--dim); margin-bottom:0.25rem; letter-spacing:0.05em; }
+        .message .content { font-size:0.95rem; }
+        .badges span { display:inline-block; background:rgba(255,255,255,0.06); padding:0.15rem 0.5rem; border-radius:6px; font-size:0.7rem; color:var(--dim); margin-right:0.4rem; margin-top:0.5rem; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'dashboard' %}">← Dashboard</a>
+        <strong>Session {{ session.session_id|truncatechars:20 }}</strong>
+    </div>
+    <div class="container">
+        <div class="meta">
+            Created: {{ session.created_at }} · Messages: {{ session.message_count }} · Duration: {{ session.duration_minutes|floatformat:1 }} min
+        </div>
+        {% for msg in messages %}
+        <div class="message {{ msg.role }}">
+            <div class="role">{{ msg.role }}</div>
+            <div class="content">{{ msg.content }}</div>
+            {% if msg.role == "user" %}
+            <div class="badges">
+                {% if msg.detected_language %}<span>🌐 {{ msg.detected_language }}</span>{% endif %}
+                {% if msg.intent %}<span>🎯 {{ msg.intent }}</span>{% endif %}
+                {% if msg.sentiment_label %}<span>💬 {{ msg.sentiment_label }}</span>{% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
