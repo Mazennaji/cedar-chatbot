@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌲 Cedar Chatbot — Dashboard</title>
+    <style>
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1d27;
+            --border: #2a2d3a;
+            --text: #e4e4e7;
+            --text-dim: #9ca3af;
+            --accent: #10b981;
+            --accent-dim: #065f46;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header h1 { font-size: 1.4rem; }
+        .header .badge {
+            background: var(--accent-dim);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .stat-card .label { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 0.25rem; }
+        .stat-card .value { font-size: 2rem; font-weight: 700; }
+        .stat-card .value.green { color: var(--accent); }
+        .stat-card .value.red { color: var(--danger); }
+        .stat-card .value.yellow { color: var(--warning); }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .table-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.03);
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        td { padding: 0.75rem 1rem; border-top: 1px solid var(--border); }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        .status-dot.active { background: var(--accent); }
+        .status-dot.inactive { background: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌲 Cedar Chatbot Dashboard</h1>
+        <span class="badge">v1.0.0</span>
+    </div>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Total Sessions</div>
+                <div class="value">{{ total_sessions }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Active Sessions</div>
+                <div class="value green">{{ active_sessions }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Total Messages</div>
+                <div class="value">{{ total_messages }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Feedback Collected</div>
+                <div class="value yellow">{{ total_feedback }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">👍 Positive</div>
+                <div class="value green">{{ positive_feedback }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">👎 Negative</div>
+                <div class="value red">{{ negative_feedback }}</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Recent Sessions</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Session ID</th>
+                        <th>User</th>
+                        <th>Messages</th>
+                        <th>Last Active</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in recent_sessions %}
+                    <tr>
+                        <td>
+                            <span class="status-dot {% if session.is_active %}active{% else %}inactive{% endif %}"></span>
+                            {{ session.is_active|yesno:"Active,Closed" }}
+                        </td>
+                        <td>
+                            <a href="{% url 'session_detail' session.session_id %}">
+                                {{ session.session_id|truncatechars:16 }}
+                            </a>
+                        </td>
+                        <td>{{ session.user|default:"Anonymous" }}</td>
+                        <td>{{ session.message_count }}</td>
+                        <td>{{ session.updated_at|timesince }} ago</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" style="text-align:center; color:var(--text-dim); padding:2rem;">
+                            No sessions yet. Start chatting!
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
