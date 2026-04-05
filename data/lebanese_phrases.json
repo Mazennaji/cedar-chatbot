@@ -1,0 +1,61 @@
+{
+  "greetings": {
+    "keefak": "كيفك",
+    "keefik": "كيفك",
+    "kifak": "كيفك",
+    "marhaba": "مرحبا",
+    "mar7aba": "مرحبا",
+    "ahla": "أهلا",
+    "salam": "سلام",
+    "sabaho": "صباحو",
+    "saba7o": "صباحو"
+  },
+  "common_words": {
+    "shu": "شو",
+    "wen": "وين",
+    "lesh": "ليش",
+    "ya3ne": "يعني",
+    "yalla": "يلا",
+    "khalas": "خلص",
+    "habibi": "حبيبي",
+    "ktir": "كتير",
+    "halla2": "هلأ",
+    "bukra": "بكرا",
+    "badde": "بدي",
+    "mish": "مش",
+    "bas": "بس",
+    "hek": "هيك"
+  },
+  "expressions": {
+    "inshallah": "إنشاالله",
+    "mashallah": "ماشاالله",
+    "ya3tik el 3afye": "يعطيك العافية",
+    "allah y5allik": "الله يخليك",
+    "tfaddal": "تفضل",
+    "merci ktir": "ميرسي كتير",
+    "yislamo": "يسلمو",
+    "tekram": "تكرم"
+  },
+  "sample_dialogues": [
+    {
+      "arabizi": "keefak ya zalame? shu 3am ta3mel?",
+      "arabic": "كيفك يا زلمة؟ شو عم تعمل؟",
+      "english": "How are you bro? What are you doing?"
+    },
+    {
+      "arabizi": "7abibi kifak lyom? wen re7t?",
+      "arabic": "حبيبي كيفك اليوم؟ وين رحت؟",
+      "english": "My dear, how are you today? Where did you go?"
+    },
+    {
+      "arabizi": "yalla 5alas badde nem",
+      "arabic": "يلا خلص بدي نام",
+      "english": "Come on, enough, I want to sleep"
+    },
+    {
+      "arabizi": "shu ra2yak ne7na nrou7 3al ba7er?",
+      "arabic": "شو رأيك نحنا نروح عالبحر؟",
+      "english": "What do you think, shall we go to the sea?"
+    }
+  ]
+}
