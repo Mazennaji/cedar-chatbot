@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Cedar Chatbot{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #16161f;
+            --bg-card-hover: #1a1a25;
+            --bg-elevated: #1e1e2a;
+            --border: #252533;
+            --border-hover: #35354a;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b8;
+            --text-dim: #6b6b80;
+            --accent: #22c55e;
+            --accent-dim: rgba(34,197,94,0.12);
+            --accent-glow: rgba(34,197,94,0.25);
+            --blue: #3b82f6;
+            --blue-dim: rgba(59,130,246,0.12);
+            --purple: #a855f7;
+            --purple-dim: rgba(168,85,247,0.12);
+            --amber: #f59e0b;
+            --amber-dim: rgba(245,158,11,0.12);
+            --red: #ef4444;
+            --red-dim: rgba(239,68,68,0.12);
+            --cyan: #06b6d4;
+            --cyan-dim: rgba(6,182,212,0.12);
+            --gradient-1: linear-gradient(135deg, #22c55e, #10b981);
+            --gradient-2: linear-gradient(135deg, #3b82f6, #6366f1);
+            --gradient-3: linear-gradient(135deg, #f59e0b, #f97316);
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 20px rgba(34,197,94,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 260px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .sidebar-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .sidebar-logo-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+        }
+
+        .sidebar-logo-badge {
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-dim);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: auto;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+
+        .nav-section-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            padding: 8px 12px 6px;
+            margin-top: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            margin-bottom: 2px;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--accent-dim);
+            color: var(--accent);
+        }
+
+        .nav-item-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .sidebar-username {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-role {
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        /* ── Main Content ── */
+        .main {
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(10,10,15,0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-title {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topbar-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--accent);
+            background: var(--accent-dim);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .content {
+            padding: 28px 32px;
+        }
+
+        /* ── Stats Grid ── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .stat-card.green::before { background: var(--gradient-1); }
+        .stat-card.blue::before { background: var(--gradient-2); }
+        .stat-card.amber::before { background: var(--gradient-3); }
+        .stat-card.purple::before { background: linear-gradient(135deg, #a855f7, #ec4899); }
+        .stat-card.cyan::before { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
+        .stat-card.red::before { background: linear-gradient(135deg, #ef4444, #f97316); }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .stat-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .stat-icon.green { background: var(--accent-dim); }
+        .stat-icon.blue { background: var(--blue-dim); }
+        .stat-icon.amber { background: var(--amber-dim); }
+        .stat-icon.purple { background: var(--purple-dim); }
+        .stat-icon.cyan { background: var(--cyan-dim); }
+        .stat-icon.red { background: var(--red-dim); }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 4px;
+        }
+
+        .stat-value.green { color: var(--accent); }
+        .stat-value.blue { color: var(--blue); }
+        .stat-value.amber { color: var(--amber); }
+        .stat-value.purple { color: var(--purple); }
+        .stat-value.red { color: var(--red); }
+        .stat-value.cyan { color: var(--cyan); }
+
+        .stat-sub {
+            font-size: 11.5px;
+            color: var(--text-dim);
+        }
+
+        /* ── Cards / Panels ── */
+        .panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .panel-header {
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: var(--bg-elevated);
+            color: var(--text-dim);
+        }
+
+        .panel-body {
+            padding: 0;
+        }
+
+        /* ── Table ── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 11px 18px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: var(--text-dim);
+            background: rgba(255,255,255,0.015);
+            border-bottom: 1px solid var(--border);
+        }
+
+        tbody td {
+            padding: 13px 18px;
+            font-size: 13.5px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            color: var(--text-secondary);
+        }
+
+        tbody tr {
+            transition: background 0.1s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ── Badges / Tags ── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+
+        .badge-green { background: var(--accent-dim); color: var(--accent); }
+        .badge-blue { background: var(--blue-dim); color: var(--blue); }
+        .badge-amber { background: var(--amber-dim); color: var(--amber); }
+        .badge-red { background: var(--red-dim); color: var(--red); }
+        .badge-purple { background: var(--purple-dim); color: var(--purple); }
+        .badge-cyan { background: var(--cyan-dim); color: var(--cyan); }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot-green { background: var(--accent); }
+        .dot-red { background: var(--red); }
+        .dot-amber { background: var(--amber); }
+
+        /* ── Links ── */
+        a.link {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a.link:hover {
+            text-decoration: underline;
+        }
+
+        /* ── Grid Layout ── */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* ── Empty State ── */
+        .empty-state {
+            padding: 48px 24px;
+            text-align: center;
+            color: var(--text-dim);
+        }
+
+        .empty-state-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
+            font-size: 14px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+            .sidebar { transform: translateX(-100%); }
+            .main { margin-left: 0; }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <a href="/" class="sidebar-logo">
+                <div class="sidebar-logo-icon">🌲</div>
+                <span class="sidebar-logo-text">Cedar</span>
+                <span class="sidebar-logo-badge">v1.0</span>
+            </a>
+        </div>
+
+        <div class="sidebar-nav">
+            <div class="nav-section-label">Main</div>
+            <a href="/" class="nav-item {% block nav_dashboard %}{% endblock %}">
+                <span class="nav-item-icon">📊</span> Dashboard
+            </a>
+            <a href="/analytics/" class="nav-item {% block nav_analytics %}{% endblock %}">
+                <span class="nav-item-icon">📈</span> Analytics
+            </a>
+
+            <div class="nav-section-label">Management</div>
+            <a href="/admin/" class="nav-item">
+                <span class="nav-item-icon">⚙️</span> Admin Panel
+            </a>
+            <a href="/admin/core/chatsession/" class="nav-item">
+                <span class="nav-item-icon">💬</span> Sessions
+            </a>
+            <a href="/admin/core/chatmessage/" class="nav-item">
+                <span class="nav-item-icon">📝</span> Messages
+            </a>
+            <a href="/admin/core/userfeedback/" class="nav-item">
+                <span class="nav-item-icon">⭐</span> Feedback
+            </a>
+
+            <div class="nav-section-label">Services</div>
+            <a href="http://localhost:8000/docs" target="_blank" class="nav-item">
+                <span class="nav-item-icon">🔌</span> API Docs
+            </a>
+            <a href="http://localhost:8501" target="_blank" class="nav-item">
+                <span class="nav-item-icon">💻</span> Chat UI
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="sidebar-avatar">🧑</div>
+                <div>
+                    <div class="sidebar-username">{{ request.user.username|default:"Admin" }}</div>
+                    <div class="sidebar-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main">
+        <div class="topbar">
+            <div class="topbar-title">{% block page_title %}Dashboard{% endblock %}</div>
+            <div class="topbar-actions">
+                <div class="topbar-status">
+                    <span class="status-dot"></span>
+                    All Systems Online
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

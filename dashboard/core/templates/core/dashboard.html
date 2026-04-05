@@ -1,147 +1,81 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌲 Cedar Chatbot — Dashboard</title>
-    <style>
-        :root {
-            --bg: #0f1117;
-            --surface: #1a1d27;
-            --border: #2a2d3a;
-            --text: #e4e4e7;
-            --text-dim: #9ca3af;
-            --accent: #10b981;
-            --accent-dim: #065f46;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-        }
+{% extends "base.html" %}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }
+{% block title %}Dashboard — Cedar Chatbot{% endblock %}
+{% block nav_dashboard %}active{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
 
-        .header {
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .header h1 { font-size: 1.4rem; }
-        .header .badge {
-            background: var(--accent-dim);
-            color: var(--accent);
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        .stat-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-        .stat-card .label { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 0.25rem; }
-        .stat-card .value { font-size: 2rem; font-weight: 700; }
-        .stat-card .value.green { color: var(--accent); }
-        .stat-card .value.red { color: var(--danger); }
-        .stat-card .value.yellow { color: var(--warning); }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        .table-wrap {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        table { width: 100%; border-collapse: collapse; }
-        th {
-            text-align: left;
-            padding: 0.75rem 1rem;
-            background: rgba(255,255,255,0.03);
-            color: var(--text-dim);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        td { padding: 0.75rem 1rem; border-top: 1px solid var(--border); }
-        tr:hover td { background: rgba(255,255,255,0.02); }
-        a { color: var(--accent); text-decoration: none; }
-        a:hover { text-decoration: underline; }
-
-        .status-dot {
-            display: inline-block;
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            margin-right: 6px;
-        }
-        .status-dot.active { background: var(--accent); }
-        .status-dot.inactive { background: var(--text-dim); }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🌲 Cedar Chatbot Dashboard</h1>
-        <span class="badge">v1.0.0</span>
+{% block content %}
+<!-- Stats -->
+<div class="stats-grid">
+    <div class="stat-card green">
+        <div class="stat-header">
+            <div class="stat-icon green">💬</div>
+            <span class="stat-label">Sessions</span>
+        </div>
+        <div class="stat-value green">{{ total_sessions }}</div>
+        <div class="stat-sub">{{ active_sessions }} currently active</div>
     </div>
 
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="label">Total Sessions</div>
-                <div class="value">{{ total_sessions }}</div>
-            </div>
-            <div class="stat-card">
-                <div class="label">Active Sessions</div>
-                <div class="value green">{{ active_sessions }}</div>
-            </div>
-            <div class="stat-card">
-                <div class="label">Total Messages</div>
-                <div class="value">{{ total_messages }}</div>
-            </div>
-            <div class="stat-card">
-                <div class="label">Feedback Collected</div>
-                <div class="value yellow">{{ total_feedback }}</div>
-            </div>
-            <div class="stat-card">
-                <div class="label">👍 Positive</div>
-                <div class="value green">{{ positive_feedback }}</div>
-            </div>
-            <div class="stat-card">
-                <div class="label">👎 Negative</div>
-                <div class="value red">{{ negative_feedback }}</div>
-            </div>
+    <div class="stat-card blue">
+        <div class="stat-header">
+            <div class="stat-icon blue">📝</div>
+            <span class="stat-label">Messages</span>
         </div>
+        <div class="stat-value blue">{{ total_messages }}</div>
+        <div class="stat-sub">Across all sessions</div>
+    </div>
 
-        <h2 class="section-title">Recent Sessions</h2>
-        <div class="table-wrap">
+    <div class="stat-card amber">
+        <div class="stat-header">
+            <div class="stat-icon amber">⭐</div>
+            <span class="stat-label">Feedback</span>
+        </div>
+        <div class="stat-value amber">{{ total_feedback }}</div>
+        <div class="stat-sub">RLHF training samples</div>
+    </div>
+
+    <div class="stat-card purple">
+        <div class="stat-header">
+            <div class="stat-icon purple">👍</div>
+            <span class="stat-label">Positive</span>
+        </div>
+        <div class="stat-value" style="color: var(--accent);">{{ positive_feedback }}</div>
+        <div class="stat-sub">User approvals</div>
+    </div>
+
+    <div class="stat-card red">
+        <div class="stat-header">
+            <div class="stat-icon red">👎</div>
+            <span class="stat-label">Negative</span>
+        </div>
+        <div class="stat-value red">{{ negative_feedback }}</div>
+        <div class="stat-sub">Needs improvement</div>
+    </div>
+
+    <div class="stat-card cyan">
+        <div class="stat-header">
+            <div class="stat-icon cyan">📊</div>
+            <span class="stat-label">Satisfaction</span>
+        </div>
+        <div class="stat-value cyan">{{ satisfaction_rate }}%</div>
+        <div class="stat-sub">Overall approval rate</div>
+    </div>
+</div>
+
+<!-- Two Column Layout -->
+<div class="grid-2">
+    <!-- Recent Sessions -->
+    <div class="panel">
+        <div class="panel-header">
+            <div class="panel-title">💬 Recent Sessions</div>
+            <span class="panel-badge">Last 10</span>
+        </div>
+        <div class="panel-body">
             <table>
                 <thead>
                     <tr>
                         <th>Status</th>
-                        <th>Session ID</th>
+                        <th>Session</th>
                         <th>User</th>
                         <th>Messages</th>
                         <th>Last Active</th>
@@ -151,22 +85,30 @@
                     {% for session in recent_sessions %}
                     <tr>
                         <td>
-                            <span class="status-dot {% if session.is_active %}active{% else %}inactive{% endif %}"></span>
-                            {{ session.is_active|yesno:"Active,Closed" }}
+                            {% if session.is_active %}
+                                <span class="badge badge-green"><span class="dot dot-green"></span> Active</span>
+                            {% else %}
+                                <span class="badge" style="background:rgba(255,255,255,0.04);color:var(--text-dim);"><span class="dot dot-amber"></span> Closed</span>
+                            {% endif %}
                         </td>
                         <td>
-                            <a href="{% url 'session_detail' session.session_id %}">
-                                {{ session.session_id|truncatechars:16 }}
+                            <a href="{% url 'session_detail' session.session_id %}" class="link">
+                                {{ session.session_id|truncatechars:14 }}
                             </a>
                         </td>
-                        <td>{{ session.user|default:"Anonymous" }}</td>
-                        <td>{{ session.message_count }}</td>
-                        <td>{{ session.updated_at|timesince }} ago</td>
+                        <td style="color:var(--text-dim);">{{ session.user|default:"Anonymous" }}</td>
+                        <td>
+                            <span class="badge badge-blue">{{ session.message_count }}</span>
+                        </td>
+                        <td style="color:var(--text-dim); font-size:12px;">{{ session.updated_at|timesince }} ago</td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5" style="text-align:center; color:var(--text-dim); padding:2rem;">
-                            No sessions yet. Start chatting!
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">💬</div>
+                                <div class="empty-state-text">No sessions yet. Start chatting at <a href="http://localhost:8501" class="link" target="_blank">localhost:8501</a></div>
+                            </div>
                         </td>
                     </tr>
                     {% endfor %}
@@ -174,5 +116,89 @@
             </table>
         </div>
     </div>
-</body>
-</html>
+
+    <!-- System Info -->
+    <div>
+        <!-- Language Support -->
+        <div class="panel" style="margin-bottom:16px;">
+            <div class="panel-header">
+                <div class="panel-title">🌐 Language Support</div>
+            </div>
+            <div class="panel-body" style="padding:18px 22px;">
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <span class="badge badge-blue" style="min-width:56px;justify-content:center;">EN</span>
+                        <span style="font-size:13.5px;">English — Hello, how are you?</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <span class="badge badge-green" style="min-width:56px;justify-content:center;">AR</span>
+                        <span style="font-size:13.5px; direction:rtl;">Arabic — كيف حالك؟</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <span class="badge badge-purple" style="min-width:56px;justify-content:center;">LB</span>
+                        <span style="font-size:13.5px;">Arabizi — keefak ya zalame?</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NLP Pipeline -->
+        <div class="panel" style="margin-bottom:16px;">
+            <div class="panel-header">
+                <div class="panel-title">🧠 NLP Pipeline</div>
+            </div>
+            <div class="panel-body" style="padding:18px 22px;">
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span class="badge badge-cyan" style="font-size:13px;">1</span>
+                        <span style="font-size:13px;color:var(--text-secondary);">Language Detection</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;padding-left:8px;">
+                        <span style="color:var(--text-dim);">↓</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span class="badge badge-purple" style="font-size:13px;">2</span>
+                        <span style="font-size:13px;color:var(--text-secondary);">Arabizi Normalization</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;padding-left:8px;">
+                        <span style="color:var(--text-dim);">↓</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span class="badge badge-blue" style="font-size:13px;">3</span>
+                        <span style="font-size:13px;color:var(--text-secondary);">Intent + Sentiment</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;padding-left:8px;">
+                        <span style="color:var(--text-dim);">↓</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span class="badge badge-green" style="font-size:13px;">4</span>
+                        <span style="font-size:13px;color:var(--text-secondary);">Transformer Response</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;padding-left:8px;">
+                        <span style="color:var(--text-dim);">↓</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span class="badge badge-amber" style="font-size:13px;">5</span>
+                        <span style="font-size:13px;color:var(--text-secondary);">RLHF Reward Scoring</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title">🔗 Quick Links</div>
+            </div>
+            <div class="panel-body" style="padding:18px 22px;">
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <a href="http://localhost:8000/docs" target="_blank" class="link" style="font-size:13.5px;">🔌 FastAPI Swagger Docs</a>
+                    <a href="http://localhost:8501" target="_blank" class="link" style="font-size:13.5px;">💻 Streamlit Chat Interface</a>
+                    <a href="/admin/" class="link" style="font-size:13.5px;">⚙️ Django Admin Panel</a>
+                    <a href="/analytics/" class="link" style="font-size:13.5px;">📈 Analytics Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
