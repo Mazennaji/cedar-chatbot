@@ -305,7 +305,11 @@ class ArabicDialectDetector:
         )
 
     def _score_arabic(self, text: str) -> tuple:
-        words = set(text.split())
+        raw_words = text.split()
+        words = set()
+        for w in raw_words:
+            words.add(w.strip("؟،.!؛:\"'()[]«»"))
+        
         scores = {}
         found = {}
 
