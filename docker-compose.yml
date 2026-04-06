@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+
+  api:
+    build:
+      context: .
+      target: api
+    container_name: cedar-api
+    ports:
+      - "8000:8000"
+    environment:
+      - CEDAR_MODEL=facebook/blenderbot-400M-distill
+      - CEDAR_DEVICE=cpu
+      - CEDAR_CORS_ORIGINS=*
+      - CEDAR_RATE_LIMIT=60
+      - CEDAR_AUTH_ENABLED=false
+    volumes:
+      - model-cache:/root/.cache/huggingface
+      - ./checkpoints:/app/checkpoints
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  dashboard:
+    build:
+      context: .
+      target: dashboard
+    container_name: cedar-dashboard
+    ports:
+      - "8001:8001"
+    environment:
+      - DJANGO_SECRET_KEY=change-in-production
+      - DJANGO_DEBUG=True
+      - CEDAR_API_URL=http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: .
+      target: ui
+    container_name: cedar-ui
+    ports:
+      - "8501:8501"
+    environment:
+      - CEDAR_API_URL=http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  model-cache:

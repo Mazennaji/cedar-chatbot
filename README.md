@@ -83,7 +83,7 @@ Cedar normalizes Arabizi into Arabic script, detects language/dialect, classifie
 ┌─────────────────────────────────────────────────────────────┐
 │                        CLIENTS                              │
 │  ┌──────────┐  ┌──────────────┐  ┌───────────────────────┐  │
-│  │ Streamlit│  │ REST / cURL  │  │ Django Admin Dashboard │  │
+│  │ Streamlit│  │ REST / cURL  │  │ Django Admin Dashboard│  │
 │  │ Chat UI  │  │ API Clients  │  │ (Analytics + Users)   │  │
 │  └────┬─────┘  └──────┬───────┘  └───────────┬───────────┘  │
 └───────┼───────────────┼───────────────────────┼─────────────┘
@@ -91,20 +91,20 @@ Cedar normalizes Arabizi into Arabic script, detects language/dialect, classifie
         ▼               ▼                       ▼
 ┌───────────────────────────────────────────────────────────┐
 │                    FastAPI Gateway                        │
-│  ┌─────────┐  ┌──────────┐  ┌──────────┐  ┌───────────┐  │
-│  │  Auth   │  │Rate Limit│  │ Logging  │  │ WebSocket │  │
-│  │Middleware│  │Middleware│  │Middleware │  │  Handler  │  │
-│  └─────────┘  └──────────┘  └──────────┘  └───────────┘  │
+│  ┌─────────┐  ┌──────────┐  ┌──────────┐  ┌───────────┐   │
+│  │  Auth   │  │Rate Limit│  │ Logging  │  │ WebSocket │   │
+│  │Middleware│ │Middleware│  │Middleware│  │  Handler  │   │
+│  └─────────┘  └──────────┘  └──────────┘  └───────────┘   │
 └───────────────────────┬───────────────────────────────────┘
                         │
                         ▼
 ┌───────────────────────────────────────────────────────────┐
 │                   NLP Pipeline                            │
 │                                                           │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
-│  │ Language │→ │ Arabizi  │→ │ Intent   │→ │Sentiment │  │
-│  │ Detector │  │Normalizer│  │Classifier│  │ Analyzer │  │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │ Language │→ │ Arabizi  │→ │ Intent   │→ │Sentiment │   │
+│  │ Detector │  │Normalizer│  │Classifier│  │ Analyzer │   │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
 │                        │                                  │
 │                        ▼                                  │
 │  ┌─────────────────────────────────────────────────────┐  │
@@ -126,10 +126,10 @@ Cedar normalizes Arabizi into Arabic script, detects language/dialect, classifie
                         ▼
 ┌───────────────────────────────────────────────────────────┐
 │                   Data Layer                              │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────────────┐    │
-│  │ SQLite / │  │  Redis   │  │  Model Checkpoints   │    │
-│  │ Postgres │  │  Cache   │  │  (HuggingFace Hub)   │    │
-│  └──────────┘  └──────────┘  └──────────────────────┘    │
+│  ┌──────────┐  ┌──────────┐  ┌──────────────────────┐     │
+│  │ SQLite / │  │  Redis   │  │  Model Checkpoints   │     │
+│  │ Postgres │  │  Cache   │  │  (HuggingFace Hub)   │     │
+│  └──────────┘  └──────────┘  └──────────────────────┘     │
 └───────────────────────────────────────────────────────────┘
 ```
 
