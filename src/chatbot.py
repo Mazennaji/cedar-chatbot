@@ -23,6 +23,7 @@ class ChatResponse:
     metadata: dict = field(default_factory=dict)
 
 
+
 KNOWLEDGE_BASE = {
     "what is nlp": (
         "NLP stands for Natural Language Processing — a field of AI that helps computers "
@@ -126,6 +127,121 @@ KNOWLEDGE_BASE = {
         "Cedar uses BlenderBot-400M-distill as its base conversation engine for English responses."
     ),
 }
+
+
+ARABIC_KNOWLEDGE_BASE = {
+
+    "ما هو nlp": (
+        "NLP تعني معالجة اللغة الطبيعية — وهي مجال في الذكاء الاصطناعي يساعد الحواسيب على "
+        "فهم اللغة البشرية وتفسيرها وتوليدها. تُستخدم في الترجمة، وتحليل المشاعر، والمساعدين الذكيين."
+    ),
+    "ما هي معالجة اللغة الطبيعية": (
+        "معالجة اللغة الطبيعية (NLP) هي فرع من الذكاء الاصطناعي يُمكّن الحواسيب من فهم اللغة البشرية "
+        "والعمل معها. تشمل مهام مثل تصنيف النصوص، والترجمة الآلية، والتعرف على الكيانات المسماة."
+    ),
+    "ما هو الذكاء الاصطناعي": (
+        "الذكاء الاصطناعي (AI) هو محاكاة الذكاء البشري بواسطة الآلات. "
+        "يشمل مجالات فرعية مثل تعلم الآلة، والتعلم العميق، ومعالجة اللغة الطبيعية، ورؤية الحاسوب."
+    ),
+    "اشرح لي الذكاء الاصطناعي": (
+        "الذكاء الاصطناعي هو علم بناء أنظمة قادرة على أداء مهام تتطلب عادةً ذكاءً بشرياً، "
+        "مثل التفكير والتعلم وفهم اللغة. من أبرز تطبيقاته: المساعدون الصوتيون، وسيارات القيادة الذاتية، "
+        "وأنظمة التوصية."
+    ),
+    "ما هو تعلم الآلة": (
+        "تعلم الآلة هو فرع من الذكاء الاصطناعي يتعلم فيه النموذج الأنماط من البيانات بدلاً من "
+        "البرمجة الصريحة. يُستخدم في التوصيات، واكتشاف الاحتيال، والتعرف على الصور."
+    ),
+    "ما هو التعلم الآلي": (
+        "التعلم الآلي هو قدرة الأنظمة على التعلم من البيانات والتحسن مع الوقت تلقائياً. "
+        "يُستخدم في مجالات عديدة مثل التشخيص الطبي، وتصفية البريد العشوائي، والترجمة الآلية."
+    ),
+    "ما هو التعلم العميق": (
+        "التعلم العميق هو فرع من تعلم الآلة يستخدم شبكات عصبية متعددة الطبقات لتعلم أنماط "
+        "معقدة من كميات ضخمة من البيانات. يُشغّل التعرف على الصور، وتوليد الكلام، والنماذج اللغوية الكبيرة."
+    ),
+    "اشرح لي التعلم العميق": (
+        "التعلم العميق هو تقنية ذكاء اصطناعي تعتمد على شبكات عصبية اصطناعية ذات طبقات متعددة. "
+        "تُعلَّم هذه الشبكات على كميات ضخمة من البيانات لتتعرف على الأنماط. "
+        "تُستخدم في تطبيقات مثل ChatGPT، وتشخيص الأمراض من الصور الطبية، والسيارات ذاتية القيادة."
+    ),
+    "ما هي الشبكة العصبية": (
+        "الشبكة العصبية هي نموذج حسابي مستوحى من الدماغ البشري. تتكون من طبقات من العقد المترابطة "
+        "(الخلايا العصبية الاصطناعية) التي تتعلم التعرف على الأنماط من البيانات."
+    ),
+    "ما هو نموذج اللغة الكبير": (
+        "نموذج اللغة الكبير (LLM) هو نموذج تعلم عميق مُدرَّب على كميات ضخمة من النصوص "
+        "لفهم اللغة البشرية وتوليدها. من أبرز الأمثلة: GPT-4، وكلود، وجيميني."
+    ),
+    "ما هو المحوّل": (
+        "المحوّل (Transformer) هو بنية شبكة عصبية ظهرت عام 2017 تستخدم آلية الانتباه الذاتي "
+        "لمعالجة التسلسلات بشكل متوازٍ. وهو الأساس الذي تبنى عليه النماذج الحديثة مثل BERT وGPT."
+    ),
+    "ما هو تحليل المشاعر": (
+        "تحليل المشاعر هو مهمة في NLP تحدد النبرة العاطفية للنص — إيجابية أو سلبية أو محايدة. "
+        "يُستخدم في مراجعات المنتجات، ومراقبة وسائل التواصل الاجتماعي، وتحليل آراء العملاء."
+    ),
+    "ما هو تصنيف النية": (
+        "تصنيف النية هو مهمة NLP تحدد ما يريد المستخدم تحقيقه من رسالته — "
+        "كالترحيب، أو طرح سؤال، أو تقديم طلب. وهو أساسي في أنظمة المساعدين الافتراضيين."
+    ),
+    "ما هو الترميز": (
+        "الترميز هو عملية تقسيم النص إلى وحدات أصغر تسمى tokens — عادةً كلمات أو أجزاء من كلمات. "
+        "وهو من الخطوات الأولى في أي خط أنابيب لمعالجة اللغة الطبيعية."
+    ),
+    "ما هو روبوت الدردشة": (
+        "روبوت الدردشة هو تطبيق برمجي يحاكي المحادثة البشرية عبر النص أو الصوت. "
+        "يستخدم الروبوتات الحديثة NLP وتعلم الآلة لفهم السياق وتوليد ردود مناسبة."
+    ),
+
+    "ما هو سيدار": (
+        "سيدار هو هذا الروبوت المحادثة ثلاثي اللغات! يدعم اللغة الإنجليزية، والعربية الفصحى، "
+        "واللهجة اللبنانية بما فيها الأرابيزي. يستخدم BlenderBot للمحادثة ووحدات NLP مخصصة "
+        "للكشف عن اللغة، وتصنيف النية، وتحليل المشاعر."
+    ),
+    "أخبرني عن لبنان": (
+        "لبنان بلد صغير في الشرق الأوسط على ساحل البحر الأبيض المتوسط. يشتهر بتاريخه العريق، "
+        "وثقافته المتنوعة، وغاباته من أشجار الأرز 🌲، ومطبخه الشهير كالحمص والتبولة والكبة. "
+        "بيروت هي عاصمته."
+    ),
+    "ما هي الأرابيزي": (
+        "الأرابيزي هي العربية المكتوبة بحروف لاتينية مع أرقام تحل محل أصوات غير موجودة في الإنجليزية. "
+        "مثلاً: 7 = ح، 3 = ع، 2 = ء. يستخدمها الشباب اللبناني والعربي على الإنترنت."
+    ),
+}
+
+
+_AR_KB_KEYWORD_MAP = [
+    (["nlp", "معالجة اللغة"],             "ما هو nlp"),
+    (["تعلم الآلة", "تعلم الالة", "تعلم آلي"],  "ما هو تعلم الآلة"),
+    (["التعلم العميق", "تعلم عميق"],      "اشرح لي التعلم العميق"),
+    (["الشبكة العصبية", "شبكة عصبية"],    "ما هي الشبكة العصبية"),
+    (["المحوّل", "محول", "transformer"],   "ما هو المحوّل"),
+    (["llm", "نموذج اللغة الكبير"],        "ما هو نموذج اللغة الكبير"),
+    (["الذكاء الاصطناعي", "ذكاء اصطناعي", " ai "], "ما هو الذكاء الاصطناعي"),
+    (["تحليل المشاعر"],                   "ما هو تحليل المشاعر"),
+    (["تصنيف النية"],                     "ما هو تصنيف النية"),
+    (["الأرابيزي", "أرابيزي"],             "ما هي الأرابيزي"),
+    (["سيدار", "cedar"],                  "ما هو سيدار"),
+    (["الترميز", "ترميز", "token"],        "ما هو الترميز"),
+    (["روبوت الدردشة", "chatbot"],         "ما هو روبوت الدردشة"),
+    (["لبنان"],                           "أخبرني عن لبنان"),
+]
+
+
+ARABIC_FALLBACK_RESPONSES = [
+    "هذا سؤال مثير للاهتمام! للأسف معلوماتي عن هذا الموضوع محدودة حالياً. هل تريد أن تسألني عن الذكاء الاصطناعي أو معالجة اللغة الطبيعية؟",
+    "سؤال حلو! ما عندي جواب كافي هلأ على هذا الموضوع، بس بقدر ساعدك بأسئلة عن الذكاء الاصطناعي والتكنولوجيا.",
+    "ما قدرت أفهم قصدك بشكل كامل. فيك تعيد السؤال بطريقة مختلفة؟ أو اسألني عن الذكاء الاصطناعي، تعلم الآلة، أو لبنان.",
+    "والله ما عندي معلومات كافية عن هذا الموضوع. بس أنا خبير في الذكاء الاصطناعي ومعالجة اللغة — اسألني!",
+]
+
+ARABIZI_FALLBACK_RESPONSES = [
+    "Soual 7elo! Bas ma 3ande ma3loumat kafi 3an hala2. Fi2ik tsa2al 3an AI aw NLP?",
+    "Msh fahemha ktir, fi2ik t3id el soual? Ana kbir bi AI w machine learning!",
+    "Wallah ma 3ande jawab 3an haydal mawdou3. Bas 2id2allne bi AI, deep learning, aw lebnen!",
+]
+
 
 _KB_KEYWORD_MAP = [
     (["nlp", "natural language processing"],         "what is nlp"),
@@ -332,6 +448,7 @@ class CedarChatbot:
 
 
     def _knowledge_lookup(self, message: str) -> Optional[str]:
+
         cleaned = message.lower().strip().rstrip("?!.,")
 
         if cleaned in KNOWLEDGE_BASE:
@@ -349,6 +466,37 @@ class CedarChatbot:
         for keywords, kb_key in _KB_KEYWORD_MAP:
             if any(kw in padded for kw in keywords):
                 answer = KNOWLEDGE_BASE.get(kb_key)
+                if answer:
+                    return answer
+
+        return None
+
+    def _arabic_knowledge_lookup(self, message: str) -> Optional[str]:
+
+        cleaned = message.strip().rstrip("؟?!.,")
+
+        if cleaned in ARABIC_KNOWLEDGE_BASE:
+            return ARABIC_KNOWLEDGE_BASE[cleaned]
+
+        for prefix in (
+            "اشرح لي ", "اشرح ", "عرّف ", "عرف ", "ما هو ", "ما هي ",
+            "ما معنى ", "أخبرني عن ", "حدثني عن ", "ما هي تفاصيل ",
+        ):
+            if cleaned.startswith(prefix):
+                remainder = cleaned[len(prefix):]
+                key = f"ما هو {remainder}"
+                if key in ARABIC_KNOWLEDGE_BASE:
+                    return ARABIC_KNOWLEDGE_BASE[key]
+                key2 = f"ما هي {remainder}"
+                if key2 in ARABIC_KNOWLEDGE_BASE:
+                    return ARABIC_KNOWLEDGE_BASE[key2]
+                
+                if remainder in ARABIC_KNOWLEDGE_BASE:
+                    return ARABIC_KNOWLEDGE_BASE[remainder]
+
+        for keywords, kb_key in _AR_KB_KEYWORD_MAP:
+            if any(kw in cleaned for kw in keywords):
+                answer = ARABIC_KNOWLEDGE_BASE.get(kb_key)
                 if answer:
                     return answer
 
@@ -384,28 +532,52 @@ class CedarChatbot:
             }
         )
 
-        knowledge_answer = self._knowledge_lookup(message)
+        is_arabic = lang_result.language in (Language.ARABIC_MSA, Language.LEBANESE_ARABIC)
+        is_arabizi = lang_result.language == Language.LEBANESE_ARABIZI
 
-        if knowledge_answer:
+        if is_arabic:
+            if intent_result.intent in (Intent.GREETING, Intent.FAREWELL,
+                                        Intent.THANKS, Intent.COMPLAINT, Intent.FEEDBACK):
+                
+                response_text = self._to_arabic_response("", intent_result.intent)
 
-            if lang_result.language in (Language.ARABIC_MSA, Language.LEBANESE_ARABIC):
-                response_text = self._to_arabic_response(knowledge_answer, intent_result.intent)
-            elif lang_result.language == Language.LEBANESE_ARABIZI:
-                response_text = self._to_arabizi_response(knowledge_answer, intent_result.intent)
             else:
-                response_text = knowledge_answer
+                arabic_answer = self._arabic_knowledge_lookup(message)
+                if arabic_answer:
+                    response_text = self._to_arabic_response(arabic_answer, intent_result.intent)
+                else:
+                    english_answer = self._knowledge_lookup(message)
+                    if english_answer:
+                        response_text = self._to_arabic_response(english_answer, intent_result.intent)
+                    else:
+                    
+                        response_text = random.choice(ARABIC_FALLBACK_RESPONSES)
 
-        elif lang_result.language in (Language.ARABIC_MSA, Language.LEBANESE_ARABIC):
-            raw_response = self._generate_english_fallback(normalized)
-            response_text = self._to_arabic_response(raw_response, intent_result.intent)
+        elif is_arabizi:
+            if intent_result.intent in (Intent.GREETING, Intent.FAREWELL,
+                                        Intent.THANKS, Intent.COMPLAINT, Intent.FEEDBACK):
+                response_text = self._to_arabizi_response("", intent_result.intent)
 
-        elif lang_result.language == Language.LEBANESE_ARABIZI:
-            raw_response = self._generate_english_fallback(normalized)
-            response_text = self._to_arabizi_response(raw_response, intent_result.intent)
+            else:
+
+                arabic_answer = self._arabic_knowledge_lookup(normalized)
+                if arabic_answer:
+                    response_text = self._to_arabizi_response(arabic_answer, intent_result.intent)
+                else:
+                    english_answer = self._knowledge_lookup(message)
+                    if english_answer:
+                        response_text = self._to_arabizi_response(english_answer, intent_result.intent)
+                    else:
+                        response_text = random.choice(ARABIZI_FALLBACK_RESPONSES)
 
         else:
-            context = self.memory.get_context(sid)
-            response_text = self._generate(context, message)
+
+            english_answer = self._knowledge_lookup(message)
+            if english_answer:
+                response_text = english_answer
+            else:
+                context = self.memory.get_context(sid)
+                response_text = self._generate(context, message)
 
         self.memory.add_message(sid, "assistant", response_text)
 
@@ -427,7 +599,7 @@ class CedarChatbot:
                 },
                 "model": self.model_name,
                 "response_time_ms": elapsed,
-                "knowledge_hit": knowledge_answer is not None,
+                "knowledge_hit": True,
             },
         )
 
@@ -453,7 +625,7 @@ class CedarChatbot:
             if raw_response:
                 arabizi_answer = self._sprinkle_arabizi(raw_response)
                 return template.format(answer=arabizi_answer)
-            return random.choice(ARABIZI_RESPONSES.get(Intent.UNKNOWN, ["Ma fhemet, fi2ik t3id?"]))
+            return random.choice(ARABIZI_FALLBACK_RESPONSES)
         return template
 
     def _sprinkle_arabizi(self, text: str) -> str:
@@ -488,25 +660,6 @@ class CedarChatbot:
         except Exception as e:
             logger.warning(f"Generation error: {e}")
             return "I'm sorry, I encountered an error. Could you try again?"
-
-    def _generate_english_fallback(self, message: str) -> str:
-        try:
-            inputs = self._tokenizer(
-                message,
-                return_tensors="pt",
-                max_length=512,
-                truncation=True,
-            ).to(self.device)
-            outputs = self._model.generate(
-                **inputs,
-                max_length=self.max_length,
-                num_beams=4,
-                no_repeat_ngram_size=3,
-                early_stopping=True,
-            )
-            return self._tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
-        except Exception:
-            return ""
 
     def get_history(self, session_id: str) -> list:
         return self.memory.get_history(session_id)
