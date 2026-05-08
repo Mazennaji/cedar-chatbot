@@ -23,7 +23,6 @@ class ChatResponse:
     metadata: dict = field(default_factory=dict)
 
 
-
 KNOWLEDGE_BASE = {
     "what is nlp": (
         "NLP stands for Natural Language Processing — a field of AI that helps computers "
@@ -130,7 +129,6 @@ KNOWLEDGE_BASE = {
 
 
 ARABIC_KNOWLEDGE_BASE = {
-
     "ما هو nlp": (
         "NLP تعني معالجة اللغة الطبيعية — وهي مجال في الذكاء الاصطناعي يساعد الحواسيب على "
         "فهم اللغة البشرية وتفسيرها وتوليدها. تُستخدم في الترجمة، وتحليل المشاعر، والمساعدين الذكيين."
@@ -193,7 +191,6 @@ ARABIC_KNOWLEDGE_BASE = {
         "روبوت الدردشة هو تطبيق برمجي يحاكي المحادثة البشرية عبر النص أو الصوت. "
         "يستخدم الروبوتات الحديثة NLP وتعلم الآلة لفهم السياق وتوليد ردود مناسبة."
     ),
-
     "ما هو سيدار": (
         "سيدار هو هذا الروبوت المحادثة ثلاثي اللغات! يدعم اللغة الإنجليزية، والعربية الفصحى، "
         "واللهجة اللبنانية بما فيها الأرابيزي. يستخدم BlenderBot للمحادثة ووحدات NLP مخصصة "
@@ -240,6 +237,24 @@ ARABIZI_FALLBACK_RESPONSES = [
     "Soual 7elo! Bas ma 3ande ma3loumat kafi 3an hala2. Fi2ik tsa2al 3an AI aw NLP?",
     "Msh fahemha ktir, fi2ik t3id el soual? Ana kbir bi AI w machine learning!",
     "Wallah ma 3ande jawab 3an haydal mawdou3. Bas 2id2allne bi AI, deep learning, aw lebnen!",
+]
+
+ARABIC_CHITCHAT_RESPONSES = [
+    "أنا منيح الحمد لله! وأنت، شو أخبارك؟",
+    "تمام تمام، الله يسلمك! شو عم تعمل؟",
+    "الحمد لله منيح! وأنت كيفك؟",
+    "والله منيح، شكراً! شو في جديد؟",
+    "أنا تمام الحمد لله! وأنت شو أخبارك؟",
+    "منيح كتير! يسلمو، وأنت شو أخبارك؟",
+]
+
+ARABIZI_CHITCHAT_RESPONSES = [
+    "Ana mni7 hamdellah! W enta, shu akhbarak?",
+    "Tamam tamam, allah yesalmak! Shu 3am ta3mel?",
+    "Hamdellah mni7! W enta, keefak?",
+    "Wallah mni7, shukran! Shu fi jdid?",
+    "Ana tamam, hamdellah! W enta shu akhbarak?",
+    "Mni7 ktir! Yeslamo, w enta shu akhbarak?",
 ]
 
 
@@ -446,9 +461,7 @@ class CedarChatbot:
             logger.error(f"Failed to load model: {e}")
             raise
 
-
     def _knowledge_lookup(self, message: str) -> Optional[str]:
-
         cleaned = message.lower().strip().rstrip("?!.,")
 
         if cleaned in KNOWLEDGE_BASE:
@@ -472,7 +485,6 @@ class CedarChatbot:
         return None
 
     def _arabic_knowledge_lookup(self, message: str) -> Optional[str]:
-
         cleaned = message.strip().rstrip("؟?!.,")
 
         if cleaned in ARABIC_KNOWLEDGE_BASE:
@@ -490,7 +502,6 @@ class CedarChatbot:
                 key2 = f"ما هي {remainder}"
                 if key2 in ARABIC_KNOWLEDGE_BASE:
                     return ARABIC_KNOWLEDGE_BASE[key2]
-                
                 if remainder in ARABIC_KNOWLEDGE_BASE:
                     return ARABIC_KNOWLEDGE_BASE[remainder]
 
@@ -538,8 +549,10 @@ class CedarChatbot:
         if is_arabic:
             if intent_result.intent in (Intent.GREETING, Intent.FAREWELL,
                                         Intent.THANKS, Intent.COMPLAINT, Intent.FEEDBACK):
-                
                 response_text = self._to_arabic_response("", intent_result.intent)
+
+            elif intent_result.intent == Intent.CHITCHAT:
+                response_text = random.choice(ARABIC_CHITCHAT_RESPONSES)
 
             else:
                 arabic_answer = self._arabic_knowledge_lookup(message)
@@ -550,7 +563,6 @@ class CedarChatbot:
                     if english_answer:
                         response_text = self._to_arabic_response(english_answer, intent_result.intent)
                     else:
-                    
                         response_text = random.choice(ARABIC_FALLBACK_RESPONSES)
 
         elif is_arabizi:
@@ -558,8 +570,10 @@ class CedarChatbot:
                                         Intent.THANKS, Intent.COMPLAINT, Intent.FEEDBACK):
                 response_text = self._to_arabizi_response("", intent_result.intent)
 
-            else:
+            elif intent_result.intent == Intent.CHITCHAT:
+                response_text = random.choice(ARABIZI_CHITCHAT_RESPONSES)
 
+            else:
                 arabic_answer = self._arabic_knowledge_lookup(normalized)
                 if arabic_answer:
                     response_text = self._to_arabizi_response(arabic_answer, intent_result.intent)
@@ -571,7 +585,6 @@ class CedarChatbot:
                         response_text = random.choice(ARABIZI_FALLBACK_RESPONSES)
 
         else:
-
             english_answer = self._knowledge_lookup(message)
             if english_answer:
                 response_text = english_answer
