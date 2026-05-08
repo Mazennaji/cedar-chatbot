@@ -28,15 +28,35 @@ GREETING_PHRASES = [
     "كيف حالك", "كيف الحال", "كيف حالك؟", "كيف الحال؟",
     "كيفك", "كيفكم", "شو أخبارك", "شو اخبارك",
     "kifak", "keefak", "kifik", "kif halak", "kif el hal",
+    "keefak", "kif", "kifak", "keefik",
+    "mni7", "mnee7", "tamam",
 ]
 
-QUESTION_STARTERS = ["what", "why", "when", "where", "who", "which", "how"]
+QUESTION_STARTERS = [
+    "what", "why", "when", "where", "who", "which", "how",
+    "shu", "chu", "ch", "shoo",
+    "lesh", "lesh",
+    "wen", "wayn",
+    "min", "meen",
+    "emta", "2emta",
+    "kif", "kifak", "keefak",
+    "شو", "ليش", "وين", "مين", "متى", "كيف", "ما", "هل", "ماذا",
+    "explain", "tell me", "what is", "what are", "what does",
+    "ya3ne", "ya3ni", "yanni",
+]
+
+KNOWLEDGE_TRIGGERS = [
+    "ya3ne", "ya3ni", "yanni", "ya3ni shu", "shu ya3ne", "chu ya3ne",
+    "explain", "describe", "define", "tell me about",
+    "what is", "what are", "shu hiye", "shu huwwe", "shu hy",
+    "اشرح", "ما هو", "ما هي", "عرّف", "شرح",
+]
 
 INTENT_PATTERNS = {
     Intent.GREETING: {
         "en": ["hello", "hi", "hey", "good morning", "good evening", "howdy"],
         "ar": ["مرحبا", "أهلا", "السلام عليكم", "صباح الخير", "مساء الخير"],
-        "arabizi": ["marhaba", "mar7aba", "ahla", "saba7o"],
+        "arabizi": ["marhaba", "mar7aba", "ahla", "saba7o", "sabaho", "hala"],
     },
     Intent.FAREWELL: {
         "en": ["bye", "goodbye", "see you", "take care", "later", "goodnight"],
@@ -44,9 +64,18 @@ INTENT_PATTERNS = {
         "arabizi": ["bye", "yalla bye", "ma3 el salame", "bbye"],
     },
     Intent.QUESTION: {
-        "en": ["what", "why", "when", "where", "who", "which", "can you", "do you", "is it", "tell me", "how"],
-        "ar": ["ما", "لماذا", "ليش", "متى", "أين", "وين", "مين", "شو", "هل", "ماذا"],
-        "arabizi": ["shu", "lesh", "wen", "wayn", "min", "emta"],
+        "en": [
+            "what", "why", "when", "where", "who", "which",
+            "can you", "do you", "is it", "tell me", "how",
+            "explain", "describe", "define",
+        ],
+        "ar": ["ما", "لماذا", "ليش", "متى", "أين", "وين", "مين", "شو", "هل", "ماذا", "اشرح", "عرّف"],
+        "arabizi": [
+            "shu", "chu", "ch ", "shoo",
+            "lesh", "wen", "wayn", "min", "meen", "emta",
+            "ya3ne", "ya3ni", "yanni",
+            "explain", "tell me",
+        ],
     },
     Intent.COMPLAINT: {
         "en": ["bad", "terrible", "awful", "hate", "wrong", "broken", "doesn't work", "problem", "issue", "bug"],
@@ -76,6 +105,13 @@ def _whole_word_match(keyword: str, text: str) -> bool:
     return bool(re.search(pattern, text))
 
 
+def _has_knowledge_trigger(text_lower: str) -> bool:
+    for trigger in KNOWLEDGE_TRIGGERS:
+        if trigger in text_lower:
+            return True
+    return False
+
+
 class IntentClassifier:
 
     def __init__(self):
@@ -86,37 +122,49 @@ class IntentClassifier:
             return IntentResult(Intent.UNKNOWN, 0.0, {})
 
         text_lower = text.lower().strip()
-
-        first_word = text_lower.split()[0].rstrip("?!.,") if text_lower.split() else ""
+        words = text_lower.split()
+        first_word = words[0].rstrip("?!.,") if words else ""
         has_question_mark = "?" in text_lower
 
+        if _has_knowledge_trigger(text_lower):
+            return IntentResult(
+                intent=Intent.QUESTION,
+                confidence=0.95,
+                all_scores={i.value: 0.0 for i in Intent} | {Intent.QUESTION.value: 0.95},
+            )
+
         if first_word in QUESTION_STARTERS or has_question_mark:
-            for phrase in GREETING_PHRASES:
-                if phrase in text_lower:
-                    pass
-            if first_word in QUESTION_STARTERS or has_question_mark:
-                is_pure_greeting = any(
-                    text_lower.strip("?! ") == phrase or text_lower == phrase
-                    for phrase in GREETING_PHRASES
-                )
-                if not is_pure_greeting:
-                    for phrase in GREETING_PHRASES:
-                        if phrase in text_lower and first_word not in QUESTION_STARTERS:
-                            return IntentResult(
-                                intent=Intent.GREETING,
-                                confidence=0.95,
-                                all_scores={i.value: 0.0 for i in Intent} | {Intent.GREETING.value: 0.95},
-                            )
-                    scores = self._score(text_lower)
-                    total = sum(scores.values())
-                    if total > 0:
-                        scores = {k: v / total for k, v in scores.items()}
-                    best = max(scores, key=scores.get)
+            is_pure_greeting = any(
+                text_lower.strip("?! ") == phrase or text_lower == phrase
+                for phrase in GREETING_PHRASES
+            )
+            if not is_pure_greeting:
+                for phrase in GREETING_PHRASES:
+                    if phrase in text_lower and first_word not in QUESTION_STARTERS:
+                        return IntentResult(
+                            intent=Intent.GREETING,
+                            confidence=0.95,
+                            all_scores={i.value: 0.0 for i in Intent} | {Intent.GREETING.value: 0.95},
+                        )
+                scores = self._score(text_lower)
+                total = sum(scores.values())
+                if total > 0:
+                    scores = {k: v / total for k, v in scores.items()}
+
+                best = max(scores, key=scores.get)
+
+                if scores.get(Intent.QUESTION, 0) > 0 or has_question_mark:
                     return IntentResult(
-                        intent=best,
-                        confidence=round(scores[best], 3),
+                        intent=Intent.QUESTION,
+                        confidence=max(round(scores.get(Intent.QUESTION, 0.5), 3), 0.5),
                         all_scores={k.value: round(v, 3) for k, v in scores.items()},
                     )
+
+                return IntentResult(
+                    intent=best,
+                    confidence=round(scores[best], 3),
+                    all_scores={k.value: round(v, 3) for k, v in scores.items()},
+                )
 
         for phrase in GREETING_PHRASES:
             if phrase in text_lower:

@@ -473,12 +473,59 @@ st.markdown("""
         background: var(--forest-card) !important;
         border: 1px solid rgba(42,122,59,0.25) !important;
         border-radius: 8px !important;
+        overflow: hidden !important;
     }
 
-    [data-testid="stExpander"] summary {
+    [data-testid="stExpander"] details summary {
+        padding: 10px 14px !important;
         color: #7ECF94 !important;
         font-size: 12px !important;
         font-family: 'DM Sans', sans-serif !important;
+        cursor: pointer !important;
+        list-style: none !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+    }
+
+    [data-testid="stExpander"] details summary::-webkit-details-marker {
+        display: none !important;
+    }
+
+    [data-testid="stExpander"] details summary::marker {
+        display: none !important;
+        content: "" !important;
+    }
+
+    [data-testid="stExpander"] .streamlit-expanderHeader {
+        padding: 10px 14px !important;
+        color: #7ECF94 !important;
+        font-size: 12px !important;
+        font-family: 'DM Sans', sans-serif !important;
+    }
+
+    [data-testid="stExpander"] .streamlit-expanderHeader p {
+        color: #7ECF94 !important;
+        font-size: 12px !important;
+        font-family: 'DM Sans', sans-serif !important;
+        margin: 0 !important;
+    }
+
+    [data-testid="stExpander"] svg {
+        color: #7ECF94 !important;
+        fill: #7ECF94 !important;
+        flex-shrink: 0 !important;
+        width: 14px !important;
+        height: 14px !important;
+    }
+
+    [data-testid="stExpander"] .e1d5ycv50,
+    [data-testid="stExpander"] span[data-testid="stExpanderToggleIcon"] {
+        display: none !important;
+    }
+
+    [data-testid="stExpanderDetails"] {
+        padding: 4px 14px 12px !important;
     }
 
     .stSpinner > div { border-top-color: var(--gold) !important; }

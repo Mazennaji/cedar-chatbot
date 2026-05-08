@@ -209,20 +209,64 @@ ARABIC_KNOWLEDGE_BASE = {
 
 
 _AR_KB_KEYWORD_MAP = [
-    (["nlp", "معالجة اللغة"],             "ما هو nlp"),
-    (["تعلم الآلة", "تعلم الالة", "تعلم آلي"],  "ما هو تعلم الآلة"),
-    (["التعلم العميق", "تعلم عميق"],      "اشرح لي التعلم العميق"),
-    (["الشبكة العصبية", "شبكة عصبية"],    "ما هي الشبكة العصبية"),
-    (["المحوّل", "محول", "transformer"],   "ما هو المحوّل"),
-    (["llm", "نموذج اللغة الكبير"],        "ما هو نموذج اللغة الكبير"),
+    (["nlp", "معالجة اللغة"],                    "ما هو nlp"),
+    (["تعلم الآلة", "تعلم الالة", "تعلم آلي"],   "ما هو تعلم الآلة"),
+    (["التعلم العميق", "تعلم عميق"],              "اشرح لي التعلم العميق"),
+    (["الشبكة العصبية", "شبكة عصبية"],            "ما هي الشبكة العصبية"),
+    (["المحوّل", "محول", "transformer"],           "ما هو المحوّل"),
+    (["llm", "نموذج اللغة الكبير"],               "ما هو نموذج اللغة الكبير"),
     (["الذكاء الاصطناعي", "ذكاء اصطناعي", " ai "], "ما هو الذكاء الاصطناعي"),
-    (["تحليل المشاعر"],                   "ما هو تحليل المشاعر"),
-    (["تصنيف النية"],                     "ما هو تصنيف النية"),
-    (["الأرابيزي", "أرابيزي"],             "ما هي الأرابيزي"),
-    (["سيدار", "cedar"],                  "ما هو سيدار"),
-    (["الترميز", "ترميز", "token"],        "ما هو الترميز"),
-    (["روبوت الدردشة", "chatbot"],         "ما هو روبوت الدردشة"),
-    (["لبنان"],                           "أخبرني عن لبنان"),
+    (["تحليل المشاعر"],                           "ما هو تحليل المشاعر"),
+    (["تصنيف النية"],                             "ما هو تصنيف النية"),
+    (["الأرابيزي", "أرابيزي"],                    "ما هي الأرابيزي"),
+    (["سيدار", "cedar"],                          "ما هو سيدار"),
+    (["الترميز", "ترميز", "token"],               "ما هو الترميز"),
+    (["روبوت الدردشة", "chatbot"],                "ما هو روبوت الدردشة"),
+    (["لبنان"],                                   "أخبرني عن لبنان"),
+]
+
+
+_KB_KEYWORD_MAP = [
+    (["nlp", "natural language processing"],   "what is nlp"),
+    (["machine learning", " ml "],             "what is machine learning"),
+    (["deep learning"],                        "what is deep learning"),
+    (["neural network"],                       "what is a neural network"),
+    (["transformer"],                          "what is a transformer"),
+    (["bert"],                                 "what is bert"),
+    (["gpt"],                                  "what is gpt"),
+    (["llm", "large language model"],          "what is llm"),
+    (["artificial intelligence", " ai "],      "what is ai"),
+    (["sentiment analysis"],                   "what is sentiment analysis"),
+    (["intent classif"],                       "what is intent classification"),
+    (["arabizi"],                              "what is arabizi"),
+    (["cedar chatbot", "what is cedar"],       "what is cedar"),
+    (["tokeniz"],                              "what is tokenization"),
+    (["named entity", " ner "],               "what is named entity recognition"),
+    (["blenderbot"],                           "what is blenderbot"),
+    (["lebanon"],                              "tell me about lebanon"),
+    (["chatbot"],                              "what is a chatbot"),
+]
+
+
+ARABIZI_KEYWORD_MAP = [
+    (["nlp", "natural language", "lugha"],     "what is nlp"),
+    (["machine learning", "ta3allum"],         "what is machine learning"),
+    (["deep learning", "ta3allum 3amiq"],      "what is deep learning"),
+    (["neural", "3asabi"],                     "what is a neural network"),
+    (["transformer"],                          "what is a transformer"),
+    (["bert"],                                 "what is bert"),
+    (["gpt"],                                  "what is gpt"),
+    (["llm", "large language"],               "what is llm"),
+    (["ai", "zaka2", "zaka"],                 "what is ai"),
+    (["sentiment", "masha3er"],               "what is sentiment analysis"),
+    (["intent", "niyye", "niyeh"],            "what is intent classification"),
+    (["arabizi", "3arabizi"],                 "what is arabizi"),
+    (["cedar", "sidr"],                       "what is cedar"),
+    (["token"],                               "what is tokenization"),
+    (["ner", "named entity"],                 "what is named entity recognition"),
+    (["blenderbot"],                          "what is blenderbot"),
+    (["lebnen", "lebnan", "lebanon", "loubnan"], "tell me about lebanon"),
+    (["chatbot", "bot", "robot"],             "what is a chatbot"),
 ]
 
 
@@ -255,28 +299,6 @@ ARABIZI_CHITCHAT_RESPONSES = [
     "Wallah mni7, shukran! Shu fi jdid?",
     "Ana tamam, hamdellah! W enta shu akhbarak?",
     "Mni7 ktir! Yeslamo, w enta shu akhbarak?",
-]
-
-
-_KB_KEYWORD_MAP = [
-    (["nlp", "natural language processing"],         "what is nlp"),
-    (["machine learning", " ml "],                   "what is machine learning"),
-    (["deep learning"],                              "what is deep learning"),
-    (["neural network"],                             "what is a neural network"),
-    (["transformer"],                                "what is a transformer"),
-    (["bert"],                                       "what is bert"),
-    (["gpt"],                                        "what is gpt"),
-    (["llm", "large language model"],                "what is llm"),
-    (["artificial intelligence", " ai "],            "what is ai"),
-    (["sentiment analysis"],                         "what is sentiment analysis"),
-    (["intent classif"],                             "what is intent classification"),
-    (["arabizi"],                                    "what is arabizi"),
-    (["cedar chatbot", "what is cedar"],             "what is cedar"),
-    (["tokeniz"],                                    "what is tokenization"),
-    (["named entity", " ner "],                      "what is named entity recognition"),
-    (["blenderbot"],                                 "what is blenderbot"),
-    (["lebanon"],                                    "tell me about lebanon"),
-    (["chatbot"],                                    "what is a chatbot"),
 ]
 
 
@@ -496,14 +518,9 @@ class CedarChatbot:
         ):
             if cleaned.startswith(prefix):
                 remainder = cleaned[len(prefix):]
-                key = f"ما هو {remainder}"
-                if key in ARABIC_KNOWLEDGE_BASE:
-                    return ARABIC_KNOWLEDGE_BASE[key]
-                key2 = f"ما هي {remainder}"
-                if key2 in ARABIC_KNOWLEDGE_BASE:
-                    return ARABIC_KNOWLEDGE_BASE[key2]
-                if remainder in ARABIC_KNOWLEDGE_BASE:
-                    return ARABIC_KNOWLEDGE_BASE[remainder]
+                for key in (f"ما هو {remainder}", f"ما هي {remainder}", remainder):
+                    if key in ARABIC_KNOWLEDGE_BASE:
+                        return ARABIC_KNOWLEDGE_BASE[key]
 
         for keywords, kb_key in _AR_KB_KEYWORD_MAP:
             if any(kw in cleaned for kw in keywords):
@@ -512,6 +529,18 @@ class CedarChatbot:
                     return answer
 
         return None
+
+    def _arabizi_knowledge_lookup(self, message: str) -> Optional[str]:
+        cleaned = message.lower().strip().rstrip("?!.,")
+        padded = f" {cleaned} "
+
+        for keywords, kb_key in ARABIZI_KEYWORD_MAP:
+            if any(kw in padded for kw in keywords):
+                answer = KNOWLEDGE_BASE.get(kb_key)
+                if answer:
+                    return answer
+
+        return self._knowledge_lookup(message)
 
     def chat(
         self,
@@ -545,49 +574,27 @@ class CedarChatbot:
 
         is_arabic = lang_result.language in (Language.ARABIC_MSA, Language.LEBANESE_ARABIC)
         is_arabizi = lang_result.language == Language.LEBANESE_ARABIZI
+        knowledge_hit = False
 
         if is_arabic:
-            if intent_result.intent in (Intent.GREETING, Intent.FAREWELL,
-                                        Intent.THANKS, Intent.COMPLAINT, Intent.FEEDBACK):
-                response_text = self._to_arabic_response("", intent_result.intent)
-
-            elif intent_result.intent == Intent.CHITCHAT:
-                response_text = random.choice(ARABIC_CHITCHAT_RESPONSES)
-
-            else:
-                arabic_answer = self._arabic_knowledge_lookup(message)
-                if arabic_answer:
-                    response_text = self._to_arabic_response(arabic_answer, intent_result.intent)
-                else:
-                    english_answer = self._knowledge_lookup(message)
-                    if english_answer:
-                        response_text = self._to_arabic_response(english_answer, intent_result.intent)
-                    else:
-                        response_text = random.choice(ARABIC_FALLBACK_RESPONSES)
+            response_text = self._handle_arabic(message, intent_result)
+            knowledge_hit = intent_result.intent not in (
+                Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
+                Intent.COMPLAINT, Intent.FEEDBACK, Intent.CHITCHAT,
+            )
 
         elif is_arabizi:
-            if intent_result.intent in (Intent.GREETING, Intent.FAREWELL,
-                                        Intent.THANKS, Intent.COMPLAINT, Intent.FEEDBACK):
-                response_text = self._to_arabizi_response("", intent_result.intent)
-
-            elif intent_result.intent == Intent.CHITCHAT:
-                response_text = random.choice(ARABIZI_CHITCHAT_RESPONSES)
-
-            else:
-                arabic_answer = self._arabic_knowledge_lookup(normalized)
-                if arabic_answer:
-                    response_text = self._to_arabizi_response(arabic_answer, intent_result.intent)
-                else:
-                    english_answer = self._knowledge_lookup(message)
-                    if english_answer:
-                        response_text = self._to_arabizi_response(english_answer, intent_result.intent)
-                    else:
-                        response_text = random.choice(ARABIZI_FALLBACK_RESPONSES)
+            response_text = self._handle_arabizi(message, normalized, intent_result)
+            knowledge_hit = intent_result.intent not in (
+                Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
+                Intent.COMPLAINT, Intent.FEEDBACK, Intent.CHITCHAT,
+            )
 
         else:
             english_answer = self._knowledge_lookup(message)
             if english_answer:
                 response_text = english_answer
+                knowledge_hit = True
             else:
                 context = self.memory.get_context(sid)
                 response_text = self._generate(context, message)
@@ -612,9 +619,49 @@ class CedarChatbot:
                 },
                 "model": self.model_name,
                 "response_time_ms": elapsed,
-                "knowledge_hit": True,
+                "knowledge_hit": knowledge_hit,
             },
         )
+
+    def _handle_arabic(self, message: str, intent_result) -> str:
+        intent = intent_result.intent
+
+        if intent in (Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
+                      Intent.COMPLAINT, Intent.FEEDBACK):
+            return self._to_arabic_response("", intent)
+
+        arabic_answer = self._arabic_knowledge_lookup(message)
+        if arabic_answer:
+            return self._to_arabic_response(arabic_answer, Intent.QUESTION)
+
+        english_answer = self._knowledge_lookup(message)
+        if english_answer:
+            return self._to_arabic_response(english_answer, Intent.QUESTION)
+
+        if intent == Intent.CHITCHAT:
+            return random.choice(ARABIC_CHITCHAT_RESPONSES)
+
+        return random.choice(ARABIC_FALLBACK_RESPONSES)
+
+    def _handle_arabizi(self, message: str, normalized: str, intent_result) -> str:
+        intent = intent_result.intent
+
+        if intent in (Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
+                      Intent.COMPLAINT, Intent.FEEDBACK):
+            return self._to_arabizi_response("", intent)
+
+        arabizi_answer = self._arabizi_knowledge_lookup(message)
+        if arabizi_answer:
+            return self._to_arabizi_response(arabizi_answer, Intent.QUESTION)
+
+        arabic_answer = self._arabic_knowledge_lookup(normalized)
+        if arabic_answer:
+            return self._to_arabizi_response(arabic_answer, Intent.QUESTION)
+
+        if intent == Intent.CHITCHAT:
+            return random.choice(ARABIZI_CHITCHAT_RESPONSES)
+
+        return random.choice(ARABIZI_FALLBACK_RESPONSES)
 
     def _to_arabic_response(self, raw_response: str, intent: Intent) -> str:
         templates = ARABIC_RESPONSES.get(intent, ARABIC_RESPONSES[Intent.CHITCHAT])
