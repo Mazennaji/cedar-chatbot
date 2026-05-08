@@ -20,9 +20,15 @@ class IntentResult:
     confidence: float
     all_scores: dict
 
+
+GREETING_PHRASES = [
+    "how are you", "how r you", "how are u", "what's up", "what up", "sup",
+    "how's it going", "how is it going", "how have you been"
+]
+
 INTENT_PATTERNS = {
     Intent.GREETING: {
-        "en": ["hello", "hi", "hey", "good morning", "good evening", "howdy", "what's up", "sup"],
+        "en": ["hello", "hi", "hey", "good morning", "good evening", "howdy", "how are you"],
         "ar": ["مرحبا", "أهلا", "السلام عليكم", "صباح الخير", "مساء الخير", "كيفك", "كيف حالك"],
         "arabizi": ["marhaba", "mar7aba", "ahla", "kifak", "keefak", "kifik", "saba7o", "hi"],
     },
@@ -32,7 +38,7 @@ INTENT_PATTERNS = {
         "arabizi": ["bye", "yalla bye", "ma3 el salame", "bbye"],
     },
     Intent.QUESTION: {
-        "en": ["what", "how", "why", "when", "where", "who", "which", "can you", "do you", "is it", "tell me"],
+        "en": ["what", "why", "when", "where", "who", "which", "can you", "do you", "is it", "tell me"],
         "ar": ["ما", "كيف", "لماذا", "ليش", "متى", "أين", "وين", "مين", "شو", "هل"],
         "arabizi": ["shu", "kif", "lesh", "wen", "wayn", "min", "emta"],
     },
@@ -65,13 +71,20 @@ class IntentClassifier:
         self.patterns = INTENT_PATTERNS
 
     def classify(self, text: str) -> IntentResult:
-
         if not text or not text.strip():
             return IntentResult(Intent.UNKNOWN, 0.0, {})
 
         text_lower = text.lower().strip()
-        scores = {}
 
+        for phrase in GREETING_PHRASES:
+            if phrase in text_lower:
+                return IntentResult(
+                    intent=Intent.GREETING,
+                    confidence=0.95,
+                    all_scores={i.value: 0.0 for i in Intent} | {Intent.GREETING.value: 0.95},
+                )
+
+        scores = {}
         for intent, lang_patterns in self.patterns.items():
             score = 0.0
             for lang, keywords in lang_patterns.items():
@@ -81,17 +94,16 @@ class IntentClassifier:
                             score += 1.0
                         else:
                             score += 0.5
-
             scores[intent] = score
 
         total = sum(scores.values())
-        if total > 0:
-            scores = {k: v / total for k, v in scores.items()}
 
         if total == 0:
             return IntentResult(Intent.CHITCHAT, 0.5, {i.value: 0 for i in Intent})
 
+        scores = {k: v / total for k, v in scores.items()}
         best = max(scores, key=scores.get)
+
         return IntentResult(
             intent=best,
             confidence=round(scores[best], 3),
