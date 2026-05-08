@@ -17,7 +17,6 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-    /* ── Global ── */
     .stApp {
         background: #08090d !important;
         font-family: 'DM Sans', sans-serif !important;
@@ -42,11 +41,9 @@ st.markdown("""
         background: #0e1017 !important;
     }
 
-    /* ── Hide defaults ── */
     #MainMenu, footer, [data-testid="stToolbar"],
     [data-testid="stDecoration"] { display: none !important; }
 
-    /* ── Chat messages ── */
     [data-testid="stChatMessage"] {
         background: transparent !important;
         border: none !important;
@@ -62,7 +59,6 @@ st.markdown("""
         color: #eaedf6 !important;
     }
 
-    /* User messages */
     [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
         background: linear-gradient(135deg, rgba(91,141,239,.08), rgba(99,102,241,.05)) !important;
         border: 1px solid rgba(91,141,239,.12) !important;
@@ -70,7 +66,6 @@ st.markdown("""
         padding: 14px 18px !important;
     }
 
-    /* Bot messages */
     [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
         background: #13151e !important;
         border: 1px solid #252840 !important;
@@ -78,7 +73,6 @@ st.markdown("""
         padding: 14px 18px !important;
     }
 
-    /* ── Chat input — kill ALL white borders ── */
     [data-testid="stChatInput"],
     [data-testid="stChatInput"] > div,
     [data-testid="stChatInput"] > div > div,
@@ -138,7 +132,6 @@ st.markdown("""
         box-shadow: 0 4px 20px rgba(45,212,160,.3) !important;
     }
 
-    /* ── Sidebar buttons ── */
     [data-testid="stSidebar"] .stButton > button {
         background: #13151e !important;
         border: 1px solid #252840 !important;
@@ -166,7 +159,6 @@ st.markdown("""
         outline: none !important;
     }
 
-    /* New session button */
     .new-session-btn > div > button {
         background: linear-gradient(135deg, rgba(45,212,160,.1), rgba(14,165,233,.06)) !important;
         border: 1px solid rgba(45,212,160,.2) !important;
@@ -179,7 +171,6 @@ st.markdown("""
         border-color: rgba(45,212,160,.35) !important;
     }
 
-    /* Feedback buttons */
     .stButton > button {
         border-radius: 8px !important;
         min-height: 34px !important;
@@ -198,7 +189,6 @@ st.markdown("""
         outline: none !important;
     }
 
-    /* ── Tags ── */
     .meta-tags {
         display: flex;
         gap: 5px;
@@ -225,23 +215,20 @@ st.markdown("""
     .tag-time { background: rgba(255,255,255,.04); color: #6c7296; border: 1px solid #252840; font-family: 'JetBrains Mono', monospace; font-size: 10px; }
     .tag-normalized { background: rgba(34,211,238,.1); color: #22d3ee; border: 1px solid rgba(34,211,238,.15); }
 
-    /* ── RTL ── */
     .rtl-text { direction: rtl; text-align: right; font-size: 15.5px; line-height: 1.7; }
 
-    /* ── Normalized text ── */
     .norm-box {
         background: rgba(34,211,238,.06);
         border: 1px solid rgba(34,211,238,.12);
         border-radius: 8px;
         padding: 10px 14px;
-        direction: rtl;
-        text-align: right;
         color: #22d3ee;
         font-size: 14px;
         margin-top: 6px;
+        font-family: 'DM Sans', sans-serif;
+        word-break: break-word;
     }
 
-    /* ── Welcome ── */
     .welcome-block { text-align: center; padding: 60px 20px 40px; }
     .welcome-icon { font-size: 56px; margin-bottom: 12px; filter: drop-shadow(0 0 24px rgba(45,212,160,.2)); }
     .welcome-title { font-family: 'DM Sans', sans-serif; font-size: 26px; font-weight: 700; color: #eaedf6; margin-bottom: 6px; letter-spacing: -0.5px; }
@@ -249,31 +236,37 @@ st.markdown("""
     .welcome-langs { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
     .welcome-lang { padding: 6px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 600; font-family: 'DM Sans', sans-serif; }
 
-    /* ── Sidebar ── */
     .sidebar-section-title { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #6c7296; margin-bottom: 10px; }
 
     [data-testid="stSidebar"] hr { border-color: #252840 !important; margin: 16px 0 !important; }
     hr { border-color: #252840 !important; }
 
-    /* ── Expander ── */
-    [data-testid="stExpander"] { background: transparent !important; border: 1px solid rgba(34,211,238,.12) !important; border-radius: 8px !important; }
-    [data-testid="stExpander"] summary { color: #22d3ee !important; font-size: 12px !important; }
+    [data-testid="stExpander"] {
+        background: #13151e !important;
+        border: 1px solid rgba(34,211,238,.15) !important;
+        border-radius: 8px !important;
+    }
 
-    /* ── Spinner ── */
+    [data-testid="stExpander"] summary {
+        color: #22d3ee !important;
+        font-size: 12px !important;
+        font-family: 'DM Sans', sans-serif !important;
+    }
+
+    [data-testid="stExpander"] summary:hover {
+        color: #67e8f9 !important;
+    }
+
     .stSpinner > div { border-top-color: #2dd4a0 !important; }
 
-    /* ── Toast ── */
     [data-testid="stToast"] { background: #13151e !important; border: 1px solid #252840 !important; color: #eaedf6 !important; }
 
-    /* ── Error ── */
     [data-testid="stAlert"] { background: rgba(248,113,113,.06) !important; border: 1px solid rgba(248,113,113,.15) !important; border-radius: 10px !important; color: #f87171 !important; }
 
-    /* ── Scrollbar ── */
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #252840; border-radius: 10px; }
 
-    /* ── Kill all remaining whites ── */
     .main .block-container { background: #08090d !important; }
     div[data-testid="stVerticalBlock"] { background: transparent !important; }
     .stMarkdown, .stText { color: #eaedf6 !important; }
@@ -289,23 +282,40 @@ if "messages" not in st.session_state:
 def is_arabic(text):
     return any("\u0600" <= c <= "\u06FF" for c in text)
 
+
 def send_message(message):
     try:
-        r = requests.post(CHAT_ENDPOINT, json={"message": message, "session_id": st.session_state.session_id}, timeout=60)
+        r = requests.post(
+            CHAT_ENDPOINT,
+            json={"message": message, "session_id": st.session_state.session_id},
+            timeout=60,
+        )
         return r.json() if r.status_code == 200 else {"error": f"API error: {r.status_code}"}
     except requests.exceptions.ConnectionError:
         return {"error": "Cannot connect to API. Is FastAPI running on port 8000?"}
     except Exception as e:
         return {"error": str(e)}
 
+
 def send_feedback(message_id, rating):
     try:
-        requests.post(FEEDBACK_ENDPOINT, json={"session_id": st.session_state.session_id, "message_id": message_id, "rating": rating}, timeout=5)
+        requests.post(
+            FEEDBACK_ENDPOINT,
+            json={"session_id": st.session_state.session_id, "message_id": message_id, "rating": rating},
+            timeout=5,
+        )
     except Exception:
         pass
 
+
 def get_lang_label(lang):
-    return {"english": "🇬🇧 EN", "arabic_msa": "🇸🇦 AR", "lebanese_arabic": "🇱🇧 LB", "lebanese_arabizi": "🇱🇧 Arabizi"}.get(lang, lang)
+    return {
+        "english": "🇬🇧 EN",
+        "arabic_msa": "🇸🇦 AR",
+        "lebanese_arabic": "🇱🇧 LB",
+        "lebanese_arabizi": "🇱🇧 Arabizi",
+    }.get(lang, lang)
+
 
 def render_tags(meta):
     tags = []
@@ -321,8 +331,19 @@ def render_tags(meta):
     if meta.get("response_time_ms"):
         tags.append(f'<span class="meta-tag tag-time">⚡ {int(meta["response_time_ms"])}ms</span>')
     if meta.get("normalized_text"):
-        tags.append(f'<span class="meta-tag tag-normalized">📝 Normalized</span>')
+        tags.append('<span class="meta-tag tag-normalized">📝 Normalized</span>')
     return f'<div class="meta-tags">{"".join(tags)}</div>'
+
+
+def render_normalized_text(normalized_text):
+    if not normalized_text:
+        return
+    with st.expander("Normalized Text"):
+        st.markdown(
+            f'<div class="norm-box">{normalized_text}</div>',
+            unsafe_allow_html=True,
+        )
+
 
 with st.sidebar:
     st.markdown("""
@@ -357,7 +378,11 @@ with st.sidebar:
     st.markdown("---")
     st.markdown('<div class="sidebar-section-title">Try These</div>', unsafe_allow_html=True)
 
-    for ex in ["Hello! What is NLP?", "keefak ya zalame?", "shu 3am ta3mel?", "7abibi kifak lyom?", "كيف حالك؟", "اشرح لي التعلم العميق", "Tell me about Lebanon", "yalla ne7ke 3an el AI"]:
+    for ex in [
+        "Hello! What is NLP?", "keefak ya zalame?", "shu 3am ta3mel?",
+        "7abibi kifak lyom?", "كيف حالك؟", "اشرح لي التعلم العميق",
+        "Tell me about Lebanon", "yalla ne7ke 3an el AI",
+    ]:
         if st.button(ex, use_container_width=True, key=f"ex_{ex}"):
             st.session_state.pending_message = ex
             st.rerun()
@@ -367,9 +392,19 @@ with st.sidebar:
 
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown(f'<div style="background:#13151e;border:1px solid #252840;border-radius:8px;padding:10px 12px;text-align:center;"><div style="font-size:10px;color:#6c7296;margin-bottom:2px;">Messages</div><div style="font-size:18px;font-weight:700;color:#5b8def;">{len(st.session_state.messages)}</div></div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div style="background:#13151e;border:1px solid #252840;border-radius:8px;padding:10px 12px;text-align:center;">'
+            f'<div style="font-size:10px;color:#6c7296;margin-bottom:2px;">Messages</div>'
+            f'<div style="font-size:18px;font-weight:700;color:#5b8def;">{len(st.session_state.messages)}</div></div>',
+            unsafe_allow_html=True,
+        )
     with c2:
-        st.markdown(f'<div style="background:#13151e;border:1px solid #252840;border-radius:8px;padding:10px 12px;text-align:center;"><div style="font-size:10px;color:#6c7296;margin-bottom:2px;">Session</div><div style="font-size:11px;font-weight:600;color:#2dd4a0;font-family:monospace;">{st.session_state.session_id[:6]}...</div></div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div style="background:#13151e;border:1px solid #252840;border-radius:8px;padding:10px 12px;text-align:center;">'
+            f'<div style="font-size:10px;color:#6c7296;margin-bottom:2px;">Session</div>'
+            f'<div style="font-size:11px;font-weight:600;color:#2dd4a0;font-family:monospace;">{st.session_state.session_id[:6]}...</div></div>',
+            unsafe_allow_html=True,
+        )
 
     st.markdown('<div style="height:8px"></div>', unsafe_allow_html=True)
     st.markdown('<div class="new-session-btn">', unsafe_allow_html=True)
@@ -378,6 +413,7 @@ with st.sidebar:
         st.session_state.messages = []
         st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
+
 
 if not st.session_state.messages:
     st.markdown("""
@@ -403,9 +439,7 @@ for msg in st.session_state.messages:
         if msg["role"] == "assistant" and "metadata" in msg:
             meta = msg["metadata"]
             st.markdown(render_tags(meta), unsafe_allow_html=True)
-            if meta.get("normalized_text"):
-                with st.expander("📝 Normalized Text"):
-                    st.markdown(f'<div class="norm-box">{meta["normalized_text"]}</div>', unsafe_allow_html=True)
+            render_normalized_text(meta.get("normalized_text"))
             msg_id = msg.get("message_id", "")
             if msg_id:
                 c1, c2, c3 = st.columns([1, 1, 8])
@@ -430,22 +464,31 @@ def process_message(text):
     with st.chat_message("assistant", avatar="🌲"):
         with st.spinner("🌲 Thinking..."):
             result = send_message(text)
+
         if "error" in result:
             st.error(result["error"])
-            st.session_state.messages.append({"role": "assistant", "content": result["error"], "metadata": {}})
+            st.session_state.messages.append(
+                {"role": "assistant", "content": result["error"], "metadata": {}}
+            )
         else:
             response_text = result.get("response", "")
             if is_arabic(response_text):
                 st.markdown(f'<div class="rtl-text">{response_text}</div>', unsafe_allow_html=True)
             else:
                 st.write(response_text)
+
             metadata = result.get("metadata", {})
             st.markdown(render_tags(metadata), unsafe_allow_html=True)
-            if metadata.get("normalized_text"):
-                with st.expander("📝 Normalized Text"):
-                    st.markdown(f'<div class="norm-box">{metadata["normalized_text"]}</div>', unsafe_allow_html=True)
-            st.session_state.messages.append({"role": "assistant", "content": response_text, "message_id": result.get("message_id", ""), "metadata": metadata})
+            render_normalized_text(metadata.get("normalized_text"))
+
+            st.session_state.messages.append({
+                "role": "assistant",
+                "content": response_text,
+                "message_id": result.get("message_id", ""),
+                "metadata": metadata,
+            })
     st.rerun()
+
 
 if "pending_message" in st.session_state:
     text = st.session_state.pending_message
