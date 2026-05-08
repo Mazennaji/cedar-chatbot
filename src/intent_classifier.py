@@ -23,14 +23,17 @@ class IntentResult:
 
 GREETING_PHRASES = [
     "how are you", "how r you", "how are u", "what's up", "what up", "sup",
-    "how's it going", "how is it going", "how have you been"
+    "how's it going", "how is it going", "how have you been",
+    "كيف حالك", "كيف الحال", "كيف حالك؟", "كيف الحال؟",
+    "كيفك", "كيفكم", "شو أخبارك", "شو اخبارك",
+    "kifak", "keefak", "kifik", "kif halak", "kif el hal",
 ]
 
 INTENT_PATTERNS = {
     Intent.GREETING: {
         "en": ["hello", "hi", "hey", "good morning", "good evening", "howdy", "how are you"],
-        "ar": ["مرحبا", "أهلا", "السلام عليكم", "صباح الخير", "مساء الخير", "كيفك", "كيف حالك"],
-        "arabizi": ["marhaba", "mar7aba", "ahla", "kifak", "keefak", "kifik", "saba7o", "hi"],
+        "ar": ["مرحبا", "أهلا", "السلام عليكم", "صباح الخير", "مساء الخير"],
+        "arabizi": ["marhaba", "mar7aba", "ahla", "saba7o", "hi"],
     },
     Intent.FAREWELL: {
         "en": ["bye", "goodbye", "see you", "take care", "later", "goodnight"],
@@ -39,8 +42,8 @@ INTENT_PATTERNS = {
     },
     Intent.QUESTION: {
         "en": ["what", "why", "when", "where", "who", "which", "can you", "do you", "is it", "tell me"],
-        "ar": ["ما", "كيف", "لماذا", "ليش", "متى", "أين", "وين", "مين", "شو", "هل"],
-        "arabizi": ["shu", "kif", "lesh", "wen", "wayn", "min", "emta"],
+        "ar": ["ما", "لماذا", "ليش", "متى", "أين", "وين", "مين", "شو", "هل", "ماذا"],
+        "arabizi": ["shu", "lesh", "wen", "wayn", "min", "emta"],
     },
     Intent.COMPLAINT: {
         "en": ["bad", "terrible", "awful", "hate", "wrong", "broken", "doesn't work", "problem", "issue", "bug"],
