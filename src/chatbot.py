@@ -127,6 +127,68 @@ KNOWLEDGE_BASE = {
     ),
 }
 
+ARABIZI_KNOWLEDGE_BASE = {
+    "what is nlp": (
+        "NLP ya3ne Natural Language Processing — ya3ne kif el computer bif7am el lugha el bashariyye. "
+        "Bi sha8el el chatbots, el tarjame, w tawzif el masha3er. Ktir muhim la AI!"
+    ),
+    "what is ai": (
+        "AI ya3ne Artificial Intelligence — ya3ne el zaka2 el istina3i. El ma7ine btit3allem w btfakker "
+        "mitl el insan! Bi sha8el fi ChatGPT, el sayyarat el dhatiyye, w ktir akyad tane."
+    ),
+    "what is machine learning": (
+        "Machine Learning ya3ne el ma7ine btit3allem min el data la7ala, bidoun ma 7ada ybarmjha. "
+        "Mitlan, Netflix byit3allem shu baddak tshuf min 5ilal shu shi7to abel — 7elo, ma?"
+    ),
+    "what is deep learning": (
+        "Deep Learning hiyye teknik bi AI btusted3mil shabakat 3asabiyye ktir tawile la tit3allem. "
+        "Hayde shi8liyyet ChatGPT w el tawlid el sawti. Ktir 2awwiye!"
+    ),
+    "what is a neural network": (
+        "Shabake 3asabiyye hiyye model 7asubi mstaw7a min el dimagh el bashari. Fiha tbaqa2at min "
+        "3u2ad mrabbouta bi ba3da btit3allem tit3arraf 3al anamit min el data."
+    ),
+    "what is llm": (
+        "LLM ya3ne Large Language Model — model AI mit3allem 3a kammiyyat dakhme min el nusus. "
+        "Mitlan GPT-4, Claude, w Gemini. Hayde el hayawiyyat bi sha8ilo el chatbots el 7diliye!"
+    ),
+    "what is a transformer": (
+        "Transformer hiyye binye shabake 3asabiyye ija bi 2017 btusted3mil 'self-attention' la t3abbi "
+        "el nusus bi parallel. Hayde el asas ta7t kell nmadhaj LLM mitl BERT w GPT."
+    ),
+    "what is bert": (
+        "BERT model NLP mn Google — byiqra el nass min l-jihatain (msh bass min shmal la ymin). "
+        "Ktir mnesta3melo la tassif el nusus w el as2ile w el ajwibe."
+    ),
+    "what is gpt": (
+        "GPT hiyye 3a2ile nmadhaj LLM mn OpenAI. ChatGPT mabni 3ala GPT. Btawwil nusus "
+        "tib2a zayy ma katabha el insan — ktir sha6er!"
+    ),
+    "what is cedar": (
+        "Cedar huwwe ana! Chatbot btit7akka ma3i bil inglizi, 3arabi, w arabizi. "
+        "3amil bi BlenderBot w modules NLP khas la tawzif el lugha w el niyye w el masha3er. 🌲"
+    ),
+    "tell me about lebanon": (
+        "Lebnen balad zghir 3a sa7el el ba7r el abyad el mutawassi6, ktir 7elo! Ma3ruf bi tariko "
+        "el 3ariq, el akl el laziz mitl hummus w tabbule w kibbe, w 3abel el arz 🌲. Beirut hiyye 3asimto."
+    ),
+    "what is arabizi": (
+        "Arabizi — aw Franco-Arabic — hiyye el 3arabi maktub bi 7orouf latiniyye ma3 ar2am btistabidd "
+        "el as7wat. Mitlan: 7 = ح, 3 = ع, 2 = ء. Ktir musta3male 3and el shebab el lubnani!"
+    ),
+    "what is sentiment analysis": (
+        "Tawzif el masha3er ya3ne el computer bif7am iza el nass ijabi aw salabi aw me7yad. "
+        "Bista3melou la 2ira2et taqyimat el muntajat w muraqabet el social media."
+    ),
+    "what is a chatbot": (
+        "Chatbot huwwe barnamaj byid3i yit7akka ma3ak mitl el insan — ana mitlan! El chatbots "
+        "el 7diliyye bitusted3mil AI la yif7amu el siyaq w yjawibu b6arike mna3be."
+    ),
+    "what is tokenization": (
+        "Tokenization ya3ne taqsim el nass la wa7idat as8ar esma tokens — 3adatan kalimat aw ajza2 "
+        "min kalimat. Hayde min awwal l-5u6ouat bi ay pipeline NLP."
+    ),
+}
 
 ARABIC_KNOWLEDGE_BASE = {
     "ما هو nlp": (
@@ -209,78 +271,128 @@ ARABIC_KNOWLEDGE_BASE = {
 
 
 _AR_KB_KEYWORD_MAP = [
-    (["nlp", "معالجة اللغة"],                    "ما هو nlp"),
-    (["تعلم الآلة", "تعلم الالة", "تعلم آلي"],   "ما هو تعلم الآلة"),
-    (["التعلم العميق", "تعلم عميق"],              "اشرح لي التعلم العميق"),
-    (["الشبكة العصبية", "شبكة عصبية"],            "ما هي الشبكة العصبية"),
-    (["المحوّل", "محول", "transformer"],           "ما هو المحوّل"),
-    (["llm", "نموذج اللغة الكبير"],               "ما هو نموذج اللغة الكبير"),
-    (["الذكاء الاصطناعي", "ذكاء اصطناعي", " ai "], "ما هو الذكاء الاصطناعي"),
-    (["تحليل المشاعر"],                           "ما هو تحليل المشاعر"),
-    (["تصنيف النية"],                             "ما هو تصنيف النية"),
-    (["الأرابيزي", "أرابيزي"],                    "ما هي الأرابيزي"),
-    (["سيدار", "cedar"],                          "ما هو سيدار"),
-    (["الترميز", "ترميز", "token"],               "ما هو الترميز"),
-    (["روبوت الدردشة", "chatbot"],                "ما هو روبوت الدردشة"),
-    (["لبنان"],                                   "أخبرني عن لبنان"),
+    (["nlp", "معالجة اللغة"],                     "ما هو nlp"),
+    (["تعلم الآلة", "تعلم الالة", "تعلم آلي"],    "ما هو تعلم الآلة"),
+    (["التعلم العميق", "تعلم عميق"],               "اشرح لي التعلم العميق"),
+    (["الشبكة العصبية", "شبكة عصبية"],             "ما هي الشبكة العصبية"),
+    (["المحوّل", "محول", "transformer"],            "ما هو المحوّل"),
+    (["llm", "نموذج اللغة الكبير"],                "ما هو نموذج اللغة الكبير"),
+    (["الذكاء الاصطناعي", "ذكاء اصطناعي", " ai "],  "ما هو الذكاء الاصطناعي"),
+    (["تحليل المشاعر"],                            "ما هو تحليل المشاعر"),
+    (["تصنيف النية"],                              "ما هو تصنيف النية"),
+    (["الأرابيزي", "أرابيزي"],                     "ما هي الأرابيزي"),
+    (["سيدار", "cedar"],                           "ما هو سيدار"),
+    (["الترميز", "ترميز", "token"],                "ما هو الترميز"),
+    (["روبوت الدردشة", "chatbot"],                 "ما هو روبوت الدردشة"),
+    (["لبنان"],                                    "أخبرني عن لبنان"),
 ]
-
 
 _KB_KEYWORD_MAP = [
-    (["nlp", "natural language processing"],   "what is nlp"),
-    (["machine learning", " ml "],             "what is machine learning"),
-    (["deep learning"],                        "what is deep learning"),
-    (["neural network"],                       "what is a neural network"),
-    (["transformer"],                          "what is a transformer"),
-    (["bert"],                                 "what is bert"),
-    (["gpt"],                                  "what is gpt"),
-    (["llm", "large language model"],          "what is llm"),
-    (["artificial intelligence", " ai "],      "what is ai"),
-    (["sentiment analysis"],                   "what is sentiment analysis"),
-    (["intent classif"],                       "what is intent classification"),
-    (["arabizi"],                              "what is arabizi"),
-    (["cedar chatbot", "what is cedar"],       "what is cedar"),
-    (["tokeniz"],                              "what is tokenization"),
-    (["named entity", " ner "],               "what is named entity recognition"),
-    (["blenderbot"],                           "what is blenderbot"),
-    (["lebanon"],                              "tell me about lebanon"),
-    (["chatbot"],                              "what is a chatbot"),
+    (["nlp", "natural language processing"],    "what is nlp"),
+    (["machine learning", " ml "],              "what is machine learning"),
+    (["deep learning"],                         "what is deep learning"),
+    (["neural network"],                        "what is a neural network"),
+    (["transformer"],                           "what is a transformer"),
+    (["bert"],                                  "what is bert"),
+    (["gpt"],                                   "what is gpt"),
+    (["llm", "large language model"],           "what is llm"),
+    (["artificial intelligence", " ai "],       "what is ai"),
+    (["sentiment analysis"],                    "what is sentiment analysis"),
+    (["intent classif"],                        "what is intent classification"),
+    (["arabizi"],                               "what is arabizi"),
+    (["cedar chatbot", "what is cedar"],        "what is cedar"),
+    (["tokeniz"],                               "what is tokenization"),
+    (["named entity", " ner "],                "what is named entity recognition"),
+    (["blenderbot"],                            "what is blenderbot"),
+    (["lebanon"],                               "tell me about lebanon"),
+    (["chatbot"],                               "what is a chatbot"),
 ]
-
 
 ARABIZI_KEYWORD_MAP = [
-    (["nlp", "natural language", "lugha"],     "what is nlp"),
-    (["machine learning", "ta3allum"],         "what is machine learning"),
-    (["deep learning", "ta3allum 3amiq"],      "what is deep learning"),
-    (["neural", "3asabi"],                     "what is a neural network"),
-    (["transformer"],                          "what is a transformer"),
-    (["bert"],                                 "what is bert"),
-    (["gpt"],                                  "what is gpt"),
-    (["llm", "large language"],               "what is llm"),
-    (["ai", "zaka2", "zaka"],                 "what is ai"),
-    (["sentiment", "masha3er"],               "what is sentiment analysis"),
-    (["intent", "niyye", "niyeh"],            "what is intent classification"),
-    (["arabizi", "3arabizi"],                 "what is arabizi"),
-    (["cedar", "sidr"],                       "what is cedar"),
-    (["token"],                               "what is tokenization"),
-    (["ner", "named entity"],                 "what is named entity recognition"),
-    (["blenderbot"],                          "what is blenderbot"),
-    (["lebnen", "lebnan", "lebanon", "loubnan"], "tell me about lebanon"),
-    (["chatbot", "bot", "robot"],             "what is a chatbot"),
+    (["nlp", "natural language", "lugha"],          "what is nlp"),
+    (["machine learning", "ta3allum aleh"],         "what is machine learning"),
+    (["deep learning", "ta3allum 3amiq"],           "what is deep learning"),
+    (["neural", "3asabi", "shabake"],               "what is a neural network"),
+    (["transformer"],                               "what is a transformer"),
+    (["bert"],                                      "what is bert"),
+    (["gpt"],                                       "what is gpt"),
+    (["llm", "large language"],                     "what is llm"),
+    (["ai", "zaka2", "zaka", "zeka"],               "what is ai"),
+    (["sentiment", "masha3er"],                     "what is sentiment analysis"),
+    (["intent", "niyye", "niyeh"],                  "what is intent classification"),
+    (["arabizi", "3arabizi"],                       "what is arabizi"),
+    (["cedar", "sidr"],                             "what is cedar"),
+    (["token"],                                     "what is tokenization"),
+    (["ner", "named entity"],                       "what is named entity recognition"),
+    (["blenderbot"],                                "what is blenderbot"),
+    (["lebnen", "lebnan", "lebanon", "loubnan"],    "tell me about lebanon"),
+    (["chatbot", "bot", "robot"],                   "what is a chatbot"),
 ]
 
+ARABIZI_CHITCHAT_PHRASES = {
+    "tamam": [
+        "Mni7! W enta, tamam?",
+        "Hamdellah! Shu 3am bysir ma3ak?",
+        "Ah tamam tamam, allah yesalmak!",
+    ],
+    "mni7": [
+        "Ktir mni7! Shu fi jdid?",
+        "Hamdellah, w enta mni7?",
+        "Allahu akbar, kella mni7!",
+    ],
+    "wallah": [
+        "Wallah sah! Shu baddak t3arraf kamen?",
+        "Eh wallah, 2ellak shu... shu 3am byfakkerak?",
+        "Wallah ktir mni7 hek!",
+    ],
+    "machi": [
+        "Eh machi l7al! Shu akhbarak el ba2i?",
+        "Machi w tamam, hamdellah! Shu fi jdid?",
+        "Ahh machi — mni7! W enta shu akhbarak?",
+    ],
+    "hamdellah": [
+        "Hamdellah dayman! W enta, keefak?",
+        "Ktir mni7, hamdellah! Shu 3am ta3mel?",
+        "Allah yesalmak! W enta shu akhbarak?",
+    ],
+    "yalla": [
+        "Yalla habibi, shu baddak na3mel?",
+        "Yalla inshallah! Shu 3andak bi balik?",
+        "Yalla 2ellak, shu fi?",
+    ],
+    "inshallah": [
+        "Inshallah dayman el kher! Shu baddak?",
+        "Inshallah! Shu 3andak bi balik?",
+        "Inshallah kella tamam! Shu fi jdid?",
+    ],
+    "shu baddak": [
+        "Sa2al w ana hon la sa3dak habibi!",
+        "2ellak shu baddak w bsa3dak!",
+        "Ahla fiik! Shu mumkin a3mol lak?",
+    ],
+    "keefak": [
+        "Ana mni7 hamdellah! W enta, keefak?",
+        "Tamam tamam, shukran! W enta shu akhbarak?",
+        "Hamdellah mni7! Shu fi jdid ma3ak?",
+    ],
+    "kifak": [
+        "Ana mni7 hamdellah! W enta?",
+        "Tamam, shukran! W enta kifak?",
+        "Hamdellah! Shu akhbarak?",
+    ],
+}
+
+ARABIZI_FALLBACK_RESPONSES = [
+    "Soual 7elo! Bas ma 3ande ma3loumat kafi 3an hala2. Fi2ik tsa2al 3an AI aw NLP?",
+    "Msh fahemha ktir, fi2ik t3id el soual? Ana kbir bi AI w machine learning!",
+    "Wallah ma 3ande jawab 3an haydal mawdou3. Bas 2id2allne bi AI, deep learning, aw lebnen!",
+]
 
 ARABIC_FALLBACK_RESPONSES = [
     "هذا سؤال مثير للاهتمام! للأسف معلوماتي عن هذا الموضوع محدودة حالياً. هل تريد أن تسألني عن الذكاء الاصطناعي أو معالجة اللغة الطبيعية؟",
     "سؤال حلو! ما عندي جواب كافي هلأ على هذا الموضوع، بس بقدر ساعدك بأسئلة عن الذكاء الاصطناعي والتكنولوجيا.",
     "ما قدرت أفهم قصدك بشكل كامل. فيك تعيد السؤال بطريقة مختلفة؟ أو اسألني عن الذكاء الاصطناعي، تعلم الآلة، أو لبنان.",
     "والله ما عندي معلومات كافية عن هذا الموضوع. بس أنا خبير في الذكاء الاصطناعي ومعالجة اللغة — اسألني!",
-]
-
-ARABIZI_FALLBACK_RESPONSES = [
-    "Soual 7elo! Bas ma 3ande ma3loumat kafi 3an hala2. Fi2ik tsa2al 3an AI aw NLP?",
-    "Msh fahemha ktir, fi2ik t3id el soual? Ana kbir bi AI w machine learning!",
-    "Wallah ma 3ande jawab 3an haydal mawdou3. Bas 2id2allne bi AI, deep learning, aw lebnen!",
 ]
 
 ARABIC_CHITCHAT_RESPONSES = [
@@ -292,7 +404,7 @@ ARABIC_CHITCHAT_RESPONSES = [
     "منيح كتير! يسلمو، وأنت شو أخبارك؟",
 ]
 
-ARABIZI_CHITCHAT_RESPONSES = [
+ARABIZI_GENERIC_CHITCHAT = [
     "Ana mni7 hamdellah! W enta, shu akhbarak?",
     "Tamam tamam, allah yesalmak! Shu 3am ta3mel?",
     "Hamdellah mni7! W enta, keefak?",
@@ -300,7 +412,6 @@ ARABIZI_CHITCHAT_RESPONSES = [
     "Ana tamam, hamdellah! W enta shu akhbarak?",
     "Mni7 ktir! Yeslamo, w enta shu akhbarak?",
 ]
-
 
 ARABIZI_RESPONSES = {
     Intent.GREETING: [
@@ -322,12 +433,11 @@ ARABIZI_RESPONSES = {
         "Yalla ma3 el salame, nshallah mne7ke 2arib!",
     ],
     Intent.QUESTION: [
-        "Soual mni7! Khalline fakker shway... {answer}",
+        "Soual mni7! {answer}",
         "Ah, soual 7elo! {answer}",
-        "Ya3ne, {answer}",
-        "Hala2 bi jawbak... {answer}",
+        "Ya3ne... {answer}",
+        "Hala2 bi jawbak: {answer}",
         "Mni7 ennak sa2alt! {answer}",
-        "Soual 7elo wallah! {answer}",
     ],
     Intent.THANKS: [
         "3afwan habibi! Ay wa2et 🌲",
@@ -348,24 +458,22 @@ ARABIZI_RESPONSES = {
         "Mni7 ennak 2eltelle, merci!",
     ],
     Intent.CHITCHAT: [
-        "Hahaha wallah! {answer}",
+        "Wallah! {answer}",
         "Eh sah, {answer}",
         "Ya3ne, {answer}",
-        "Ahh mni7! {answer}",
-        "Wallah? {answer}",
-        "Hala2 bi 2ellak shi... {answer}",
-        "Ah ktir 7elo! {answer}",
+        "Ahh mni7 — {answer}",
+        "Hala2 bi 2ellak: {answer}",
     ],
     Intent.REQUEST: [
         "Akid habibi! {answer}",
-        "Tab3an, khalas 3mol hek: {answer}",
+        "Tab3an: {answer}",
         "Inshallah bsa3dak! {answer}",
-        "Eh ma3 kell sourour! {answer}",
+        "Ma3 kell sourour! {answer}",
     ],
     Intent.UNKNOWN: [
         "Hmm, ma fhemet ktir. Fi2ik t3id el soual?",
         "Sorry, ma 2dert efham. Shu 2asdak?",
-        "Msh fahemha ktir, bas khalline 7awel... {answer}",
+        "Msh fahemha ktir, bas fi2ik t3id?",
     ],
 }
 
@@ -387,12 +495,11 @@ ARABIC_RESPONSES = {
         "يلا مع السلامة! إنشاالله منحكي قريب 👋",
     ],
     Intent.QUESTION: [
-        "سؤال منيح! خليني فكر شوي... {answer}",
-        "هلأ بجاوبك... {answer}",
+        "سؤال منيح! {answer}",
+        "هلأ بجاوبك: {answer}",
         "يعني، {answer}",
         "أه سؤال حلو! {answer}",
         "منيح إنك سألت! {answer}",
-        "سؤال حلو والله! {answer}",
     ],
     Intent.THANKS: [
         "عفواً حبيبي! أي وقت 🌲",
@@ -417,8 +524,7 @@ ARABIC_RESPONSES = {
         "إيه صح، {answer}",
         "يعني، {answer}",
         "آه منيح! {answer}",
-        "هلأ بقلك شي... {answer}",
-        "آه كتير حلو! {answer}",
+        "هلأ بقلك: {answer}",
     ],
     Intent.REQUEST: [
         "أكيد حبيبي! {answer}",
@@ -429,21 +535,8 @@ ARABIC_RESPONSES = {
     Intent.UNKNOWN: [
         "ما فهمت كتير، فيك تعيد السؤال؟",
         "معلش ما قدرت إفهم، شو قصدك؟",
-        "مش فاهمها كتير، بس خليني حاول... {answer}",
+        "مش فاهمها كتير، فيك تعيد؟",
     ],
-}
-
-EN_TO_ARABIZI = {
-    "hello": "marhaba", "hi": "ahla", "yes": "eh", "no": "la2",
-    "good": "mni7", "very": "ktir", "thank": "shukran", "thanks": "merci",
-    "please": "3mol ma3rouf", "sorry": "sorry ya zalameh", "ok": "tamam",
-    "okay": "tamam", "what": "shu", "how": "kif", "why": "lesh",
-    "where": "wen", "when": "emta", "who": "min", "now": "halla2",
-    "today": "lyom", "tomorrow": "bukra", "yesterday": "mbereh",
-    "friend": "sa7be", "love": "7ob", "beautiful": "7elo", "food": "akl",
-    "water": "may", "come": "ta3a", "go": "rou7", "want": "badde",
-    "know": "ba3ref", "think": "bfakker", "see": "shuf", "much": "ktir",
-    "big": "kbir", "small": "zghir", "new": "jdid", "old": "2adim",
 }
 
 
@@ -536,11 +629,21 @@ class CedarChatbot:
 
         for keywords, kb_key in ARABIZI_KEYWORD_MAP:
             if any(kw in padded for kw in keywords):
+                answer = ARABIZI_KNOWLEDGE_BASE.get(kb_key)
+                if answer:
+                    return answer
                 answer = KNOWLEDGE_BASE.get(kb_key)
                 if answer:
                     return answer
 
         return self._knowledge_lookup(message)
+
+    def _arabizi_chitchat_lookup(self, message: str) -> Optional[str]:
+        cleaned = message.lower().strip().rstrip("?!.,")
+        for keyword, responses in ARABIZI_CHITCHAT_PHRASES.items():
+            if keyword in cleaned:
+                return random.choice(responses)
+        return None
 
     def chat(
         self,
@@ -658,8 +761,12 @@ class CedarChatbot:
         if arabic_answer:
             return self._to_arabizi_response(arabic_answer, Intent.QUESTION)
 
+        chitchat_response = self._arabizi_chitchat_lookup(message)
+        if chitchat_response:
+            return chitchat_response
+
         if intent == Intent.CHITCHAT:
-            return random.choice(ARABIZI_CHITCHAT_RESPONSES)
+            return random.choice(ARABIZI_GENERIC_CHITCHAT)
 
         return random.choice(ARABIZI_FALLBACK_RESPONSES)
 
@@ -683,22 +790,9 @@ class CedarChatbot:
         template = random.choice(templates)
         if "{answer}" in template:
             if raw_response:
-                arabizi_answer = self._sprinkle_arabizi(raw_response)
-                return template.format(answer=arabizi_answer)
+                return template.format(answer=raw_response)
             return random.choice(ARABIZI_FALLBACK_RESPONSES)
         return template
-
-    def _sprinkle_arabizi(self, text: str) -> str:
-        words = text.split()
-        result = []
-        for word in words:
-            lower = word.lower().strip(".,!?;:")
-            if lower in EN_TO_ARABIZI and random.random() > 0.5:
-                punct = word[-1] if word and word[-1] in ".,!?;:" else ""
-                result.append(EN_TO_ARABIZI[lower] + punct)
-            else:
-                result.append(word)
-        return " ".join(result)
 
     def _generate(self, context: str, message: str) -> str:
         try:
