@@ -1,0 +1,86 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cedar Admin — Logged Out</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #050A06;
+            background-image:
+                radial-gradient(ellipse at 20% 20%, rgba(42,122,59,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.05) 0%, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .logout-box {
+            background: #111F13;
+            border: 1px solid rgba(201,168,76,0.25);
+            border-radius: 16px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(201,168,76,0.08);
+            padding: 40px 36px 32px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .logout-logo {
+            display: block;
+            width: 110px;
+            height: auto;
+            margin: 0 auto 12px auto;
+        }
+        .logout-title {
+            color: #B8AD95;
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+            margin: 0 auto 24px auto;
+        }
+        .logout-msg {
+            color: #6B7A5E;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+        .login-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #C9A84C, #A8782A);
+            border: none;
+            border-radius: 8px;
+            color: #050A06;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.8px;
+            padding: 12px 32px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: box-shadow 0.2s, transform 0.2s;
+            font-family: inherit;
+        }
+        .login-btn:hover {
+            box-shadow: 0 4px 20px rgba(201,168,76,0.35);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-box">
+        <img src="{% static 'cedar-logo.png' %}" alt="Cedar Chatbot" class="logout-logo">
+        <p class="logout-title">Admin Portal</p>
+        <div class="divider"></div>
+        <p class="logout-msg">You have been successfully logged out.</p>
+        <a href="{% url 'admin:login' %}" class="login-btn">{% trans "Log in again" %}</a>
+    </div>
+</body>
+</html>
