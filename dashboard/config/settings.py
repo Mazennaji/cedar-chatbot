@@ -98,7 +98,7 @@ JAZZMIN_SETTINGS = {
     "welcome_sign": "",
     "copyright": "Cedar Chatbot",
     "search_model": ["auth.User"],
-    "custom_css": "admin/css/login_fix.css",
+    "custom_css": "admin/css/custom_admin.css",
     "topmenu_links": [
         {"name": "Dashboard", "url": "admin:index"},
         {"name": "View Site", "url": "/"},
