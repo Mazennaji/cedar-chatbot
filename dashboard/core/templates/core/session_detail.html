@@ -4,38 +4,99 @@
 {% block page_title %}Session Detail{% endblock %}
 
 {% block extra_css %}
-.chat-container {
-    max-width: 680px;
-    margin: 0 auto;
+@keyframes bubbleIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold-light);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+    transition: all 0.15s ease;
+}
+
+.back-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+    color: var(--gold);
+    box-shadow: 0 2px 12px rgba(201,168,76,0.10);
 }
 
 .session-meta {
     display: flex;
-    gap: 16px;
-    margin-bottom: 24px;
+    gap: 12px;
+    margin-bottom: 28px;
     flex-wrap: wrap;
 }
 
 .meta-chip {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    padding: 9px 16px;
     font-size: 12.5px;
     color: var(--text-secondary);
+    transition: border-color 0.15s ease;
+}
+
+.meta-chip:hover {
+    border-color: var(--border-hover);
 }
 
 .meta-chip strong {
-    color: var(--text-primary);
+    color: var(--gold-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+}
+
+.meta-chip.status-active {
+    background: var(--emerald-dim);
+    border-color: rgba(42,122,59,0.35);
+}
+
+.meta-chip.status-active strong {
+    color: var(--emerald-bright);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.5px;
+}
+
+.meta-chip.status-closed strong {
+    color: var(--amber-bright);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.5px;
+}
+
+.chat-container {
+    max-width: 720px;
+    margin: 0 auto;
+    background: rgba(13,22,16,0.4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    background-image: linear-gradient(180deg, rgba(201,168,76,0.02) 0%, transparent 30%);
 }
 
 .message-bubble {
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     display: flex;
     flex-direction: column;
+    animation: bubbleIn 0.3s ease forwards;
 }
 
 .message-bubble.user {
@@ -47,13 +108,34 @@
 }
 
 .bubble-label {
-    font-size: 10.5px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.7px;
-    color: var(--text-dim);
-    margin-bottom: 5px;
-    padding: 0 4px;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    opacity: 0.75;
+    margin-bottom: 6px;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.bubble-avatar {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    background: var(--gradient-cedar);
+    border: 1px solid var(--border);
+}
+
+.message-bubble.user .bubble-avatar {
+    background: var(--gradient-gold);
 }
 
 .bubble {
@@ -61,66 +143,86 @@
     padding: 14px 18px;
     border-radius: 16px;
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.7;
     word-wrap: break-word;
+    position: relative;
 }
 
 .message-bubble.user .bubble {
-    background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(16,185,129,0.1));
-    border: 1px solid rgba(34,197,94,0.2);
+    background: linear-gradient(135deg, rgba(42,122,59,0.14), rgba(201,168,76,0.06));
+    border: 1px solid rgba(201,168,76,0.22);
     border-radius: 16px 16px 4px 16px;
-    color: var(--text-primary);
+    color: var(--cream);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
 }
 
 .message-bubble.assistant .bubble {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 16px 16px 16px 4px;
-    color: var(--text-secondary);
+    color: var(--text-primary);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.30), inset 0 1px 0 rgba(201,168,76,0.06);
+}
+
+.bubble.rtl {
+    direction: rtl;
+    text-align: right;
+    font-size: 15px;
+    line-height: 1.85;
 }
 
 .bubble-tags {
     display: flex;
     gap: 6px;
-    margin-top: 8px;
+    margin-top: 10px;
     flex-wrap: wrap;
-    padding: 0 4px;
+    padding: 0 6px;
 }
 
 .bubble-tag {
     font-size: 10.5px;
     font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 5px;
-    background: var(--bg-elevated);
-    color: var(--text-dim);
-    border: 1px solid var(--border);
-}
-
-.back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: var(--cream-dim);
     color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 8px 14px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-card);
     border: 1px solid var(--border);
-    margin-bottom: 20px;
-    transition: all 0.15s ease;
+    letter-spacing: 0.3px;
 }
 
-.back-btn:hover {
-    background: var(--bg-card-hover);
-    color: var(--text-primary);
+.bubble-tag.tag-lang {
+    background: var(--emerald-dim);
+    color: #5DBF74;
+    border-color: rgba(42,122,59,0.30);
 }
 
-.rtl {
-    direction: rtl;
-    text-align: right;
+.bubble-tag.tag-intent {
+    background: var(--gold-dim);
+    color: var(--gold-light);
+    border-color: var(--border);
+}
+
+.bubble-tag.tag-positive {
+    background: var(--emerald-dim);
+    color: #5DBF74;
+    border-color: rgba(42,122,59,0.30);
+}
+
+.bubble-tag.tag-negative {
+    background: var(--red-dim);
+    color: #D96B6B;
+    border-color: rgba(155,32,32,0.30);
+}
+
+.bubble-tag.tag-neutral {
+    background: var(--gold-dim);
+    color: var(--gold);
+    border-color: var(--border);
+}
+
+.empty-state-icon {
+    color: var(--gold);
+    opacity: 0.4;
 }
 {% endblock %}
 
@@ -132,35 +234,41 @@
     <div class="meta-chip">📝 <strong>{{ session.message_count }}</strong> messages</div>
     <div class="meta-chip">⏱️ <strong>{{ session.duration_minutes|floatformat:1 }}</strong> min</div>
     <div class="meta-chip">📅 {{ session.created_at|date:"M d, Y H:i" }}</div>
-    <div class="meta-chip">
-        {% if session.is_active %}
-            <span class="dot dot-green"></span> <strong>Active</strong>
-        {% else %}
-            <span class="dot dot-amber"></span> <strong>Closed</strong>
-        {% endif %}
+    {% if session.is_active %}
+    <div class="meta-chip status-active">
+        <span class="dot dot-green"></span> <strong>Active</strong>
     </div>
+    {% else %}
+    <div class="meta-chip status-closed">
+        <span class="dot dot-amber"></span> <strong>Closed</strong>
+    </div>
+    {% endif %}
 </div>
 
 <div class="chat-container">
     {% for msg in messages %}
     <div class="message-bubble {{ msg.role }}">
         <div class="bubble-label">
-            {% if msg.role == "user" %}🧑 User{% else %}🌲 Cedar{% endif %}
+            {% if msg.role == "user" %}
+                <span class="bubble-avatar">🧑</span> User
+            {% else %}
+                <span class="bubble-avatar">🌲</span> Cedar
+            {% endif %}
         </div>
-        <div class="bubble">{{ msg.content }}</div>
+        <div class="bubble{% if msg.detected_language == 'arabic_msa' or msg.detected_language == 'lebanese_arabic' %} rtl{% endif %}">{{ msg.content }}</div>
         {% if msg.role == "user" %}
         <div class="bubble-tags">
             {% if msg.detected_language %}
-                <span class="bubble-tag">🌐 {{ msg.detected_language }}</span>
+                <span class="bubble-tag tag-lang">🌐 {{ msg.detected_language }}</span>
             {% endif %}
             {% if msg.intent %}
-                <span class="bubble-tag">🎯 {{ msg.intent }}</span>
+                <span class="bubble-tag tag-intent">◆ {{ msg.intent }}</span>
             {% endif %}
             {% if msg.sentiment_label %}
-                <span class="bubble-tag">
-                    {% if msg.sentiment_label == "positive" %}😊
-                    {% elif msg.sentiment_label == "negative" %}😞
-                    {% else %}😐{% endif %}
+                <span class="bubble-tag tag-{{ msg.sentiment_label }}">
+                    {% if msg.sentiment_label == "positive" %}✦
+                    {% elif msg.sentiment_label == "negative" %}✧
+                    {% else %}◇{% endif %}
                     {{ msg.sentiment_label }}
                 </span>
             {% endif %}
