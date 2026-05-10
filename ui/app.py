@@ -7,7 +7,7 @@ CHAT_ENDPOINT = f"{API_URL}/api/v1/chat"
 FEEDBACK_ENDPOINT = f"{API_URL}/api/v1/feedback"
 
 st.set_page_config(
-    page_title="🌲 Cedar Chatbot",
+    page_title="Cedar Chatbot",
     page_icon="🌲",
     layout="wide",
     initial_sidebar_state="expanded",
