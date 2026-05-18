@@ -3,7 +3,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import Optional
 import logging
 
@@ -152,12 +152,13 @@ class RewardTrainer:
         torch.save({
             "model_state_dict":     self.model.state_dict(),
             "optimizer_state_dict": self.optimizer.state_dict(),
-            "config":               self.config,
+            "config":               asdict(self.config),
         }, path)
         logger.info(f"Checkpoint saved to {path}")
 
     def load(self, path: str):
         checkpoint = torch.load(path, map_location=self.device)
+        self.config = TrainerConfig(**checkpoint["config"])
         self.model.load_state_dict(checkpoint["model_state_dict"])
         self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
         logger.info(f"Checkpoint loaded from {path}")
