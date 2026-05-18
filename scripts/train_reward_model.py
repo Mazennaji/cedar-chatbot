@@ -51,7 +51,7 @@ def generate_synthetic_data() -> list:
         {"context": "Good morning", "response": "Goodbye forever.", "rating": -1},
     ]
 
-    data.extend(good_responses * 10)  # Oversample good
+    data.extend(good_responses * 10)
     data.extend(bad_responses * 10)
 
     logger.info(f"Generated {len(data)} synthetic feedback records")
