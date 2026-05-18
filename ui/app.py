@@ -485,28 +485,32 @@ st.markdown("""
         list-style: none !important;
         display: flex !important;
         align-items: center !important;
-        gap: 6px !important;
+        gap: 8px !important;
     }
 
-    [data-testid="stExpander"] details summary::-webkit-details-marker {
+    [data-testid="stExpander"] details summary::-webkit-details-marker { display: none !important; }
+    [data-testid="stExpander"] details summary::marker { display: none !important; content: "" !important; }
+
+    [data-testid="stExpander"] details summary > span:first-child,
+    [data-testid="stExpander"] details summary [data-testid="stExpanderToggleIcon"],
+    [data-testid="stExpander"] details summary [class*="material-icons"],
+    [data-testid="stExpander"] details summary [class*="material-symbols"],
+    [data-testid="stExpander"] details summary svg {
         display: none !important;
     }
 
-    [data-testid="stExpander"] details summary::marker {
-        display: none !important;
-        content: "" !important;
+    [data-testid="stExpander"] details summary::before {
+        content: "▸";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+        color: #7ECF94;
+        font-size: 11px;
+        line-height: 1;
+        display: inline-block;
+        transition: transform 0.2s ease;
     }
 
-    [data-testid="stExpander"] svg {
-        color: #7ECF94 !important;
-        fill: #7ECF94 !important;
-        flex-shrink: 0 !important;
-        width: 14px !important;
-        height: 14px !important;
-    }
-
-    [data-testid="stExpander"] span[data-testid="stExpanderToggleIcon"] {
-        display: none !important;
+    [data-testid="stExpander"] details[open] summary::before {
+        transform: rotate(90deg);
     }
 
     [data-testid="stExpanderDetails"] {
