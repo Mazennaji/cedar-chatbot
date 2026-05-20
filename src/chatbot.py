@@ -23,6 +23,77 @@ class ChatResponse:
     metadata: dict = field(default_factory=dict)
 
 
+IDENTITY_PATTERNS_EN = (
+    "what is your name", "what's your name", "whats your name",
+    "what your name", "do you have a name", "your name is",
+    "your name", "tell me your name", "may i know your name",
+    "who are you", "what are you", "introduce yourself",
+    "tell me about yourself", "what should i call you",
+    "what do they call you",
+    "do you have pets", "do you have a pet", "do you have any pets",
+    "do you have a family", "do you have kids", "do you have children",
+    "do you have siblings", "do you have a brother", "do you have a sister",
+    "where do you live", "where are you from", "where were you born",
+    "how old are you", "what's your age", "whats your age", "your age",
+    "what do you do for a living", "what's your job", "whats your job",
+    "are you human", "are you a robot", "are you an ai", "are you a bot",
+    "are you real", "are you a person",
+)
+
+IDENTITY_PATTERNS_AR = (
+    "ما اسمك", "ما هو اسمك", "ما إسمك", "شو اسمك", "شو إسمك",
+    "اسمك", "إسمك", "ما اسم", "كيف نناديك", "شو بنناديك",
+    "من أنت", "من انت", "مين انت", "مين أنت",
+    "عرف نفسك", "عرّف نفسك", "من تكون", "حدثني عن نفسك",
+    "عندك أولاد", "عندك ولاد", "عندك عيلة", "عندك عائلة",
+    "عندك حيوان", "عندك حيوانات", "عندك أخوات", "عندك إخوة",
+    "وين ساكن", "من وين انت", "من أين أنت", "أين تعيش",
+    "كم عمرك", "شو عمرك", "عمرك",
+    "أنت إنسان", "هل أنت إنسان", "أنت روبوت", "هل أنت روبوت",
+    "أنت ذكاء اصطناعي", "هل أنت بشر",
+)
+
+IDENTITY_PATTERNS_ARABIZI = (
+    "shu esmak", "shu ismak", "esmak shu", "ismak shu",
+    "shu esmek", "shu ismek", "esmek shu", "ismek shu",
+    "esmak", "ismak", "esmek", "ismek",
+    "min enta", "min inta", "min ente", "min inte",
+    "3arrefne 3a 7alak", "3arrefne", "3arrefna",
+    "7akine 3an 7alak", "min hayda",
+    "3andak wled", "3andak welad", "3andak 3ayle", "3andak 3ayleh",
+    "3andak 7ayawan", "3andak 7ayawanet", "3andak ekhwe",
+    "wen sakin", "min wen enta", "min wen inta",
+    "kam 3omrak", "kam 3omrek", "shu 3omrak", "3omrak",
+    "enta insan", "enta robot", "enta bot", "enta ai", "enta zaka2",
+    "are you human", "are you a bot", "are you a robot",
+)
+
+
+IDENTITY_RESPONSE_EN = (
+    "I'm Cedar 🌲 — a trilingual AI assistant. I understand English, "
+    "Modern Standard Arabic, and Lebanese dialect including Arabizi. "
+    "I don't have personal experiences like pets, a family, or a hometown, "
+    "but I'm here to help with questions about AI, NLP, and language. "
+    "What would you like to talk about?"
+)
+
+IDENTITY_RESPONSE_AR = (
+    "أنا سيدر 🌲 — مساعد ذكاء اصطناعي ثلاثي اللغات. "
+    "أفهم الإنجليزية، والعربية الفصحى، واللهجة اللبنانية بما فيها الأرابيزي. "
+    "ما عندي تجارب شخصية متل حيوانات أو عيلة أو مسقط رأس، "
+    "بس موجود لساعدك بأسئلة عن الذكاء الاصطناعي ومعالجة اللغة. "
+    "شو حابب نحكي عنه؟"
+)
+
+IDENTITY_RESPONSE_ARABIZI = (
+    "Ana Cedar 🌲 — assistant zaki bi tlet lughat. "
+    "Bif7am inglizi, 3arabi fos7a, w lubnani 7atta el arabizi. "
+    "Ma 3ande tajaroub shakhsiyye mitl 7ayawanet aw 3ayle aw balad, "
+    "bas ana hon la sa3dak bi as2ile 3an AI w el lugha. "
+    "Shu baddak na7ke 3anno?"
+)
+
+
 KNOWLEDGE_BASE = {
     "what is nlp": (
         "NLP stands for Natural Language Processing — a field of AI that helps computers "
@@ -576,6 +647,23 @@ class CedarChatbot:
             logger.error(f"Failed to load model: {e}")
             raise
 
+    def _is_identity_question(self, message: str, language: Language) -> bool:
+        cleaned = message.lower().strip().rstrip("?!.,؟،")
+        if language in (Language.ARABIC_MSA, Language.LEBANESE_ARABIC):
+            return any(p in cleaned for p in IDENTITY_PATTERNS_AR)
+        if language == Language.LEBANESE_ARABIZI:
+            if any(p in cleaned for p in IDENTITY_PATTERNS_ARABIZI):
+                return True
+            return any(p in cleaned for p in IDENTITY_PATTERNS_EN)
+        return any(p in cleaned for p in IDENTITY_PATTERNS_EN)
+
+    def _identity_response(self, language: Language) -> str:
+        if language in (Language.ARABIC_MSA, Language.LEBANESE_ARABIC):
+            return IDENTITY_RESPONSE_AR
+        if language == Language.LEBANESE_ARABIZI:
+            return IDENTITY_RESPONSE_ARABIZI
+        return IDENTITY_RESPONSE_EN
+
     def _knowledge_lookup(self, message: str) -> Optional[str]:
         cleaned = message.lower().strip().rstrip("?!.,")
 
@@ -679,7 +767,12 @@ class CedarChatbot:
         is_arabizi = lang_result.language == Language.LEBANESE_ARABIZI
         knowledge_hit = False
 
-        if is_arabic:
+        if self._is_identity_question(message, lang_result.language) or \
+                (is_arabizi and self._is_identity_question(normalized, Language.LEBANESE_ARABIZI)):
+            response_text = self._identity_response(lang_result.language)
+            knowledge_hit = True
+
+        elif is_arabic:
             response_text = self._handle_arabic(message, intent_result)
             knowledge_hit = intent_result.intent not in (
                 Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
