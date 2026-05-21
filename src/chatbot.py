@@ -11,6 +11,7 @@ from src.language_detector import LanguageDetector, Language
 from src.intent_classifier import IntentClassifier, Intent
 from src.sentiment import SentimentAnalyzer
 from src.memory import ConversationMemory
+from src.generator import MultilingualGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -153,8 +154,9 @@ KNOWLEDGE_BASE = {
     ),
     "what is cedar": (
         "Cedar is this trilingual AI chatbot! It supports English, Modern Standard Arabic, and "
-        "Lebanese dialect including Arabizi. It uses BlenderBot for conversation and custom NLP "
-        "modules for language detection, intent classification, and sentiment analysis."
+        "Lebanese dialect including Arabizi. It uses BlenderBot for English generation, mT5 for "
+        "Arabic and Arabizi generation, and custom NLP modules for language detection, "
+        "intent classification, and sentiment analysis."
     ),
     "tell me about lebanon": (
         "Lebanon is a small country in the Middle East on the Mediterranean coast. It's known for "
@@ -237,7 +239,7 @@ ARABIZI_KNOWLEDGE_BASE = {
     ),
     "what is cedar": (
         "Cedar huwwe ana! Chatbot btit7akka ma3i bil inglizi, 3arabi, w arabizi. "
-        "3amil bi BlenderBot w modules NLP khas la tawzif el lugha w el niyye w el masha3er. 🌲"
+        "3amil bi BlenderBot la inglizi, mT5 la 3arabi w arabizi, w modules NLP. 🌲"
     ),
     "tell me about lebanon": (
         "Lebnen balad zghir 3a sa7el el ba7r el abyad el mutawassi6, ktir 7elo! Ma3ruf bi tariko "
@@ -326,8 +328,8 @@ ARABIC_KNOWLEDGE_BASE = {
     ),
     "ما هو سيدار": (
         "سيدار هو هذا الروبوت المحادثة ثلاثي اللغات! يدعم اللغة الإنجليزية، والعربية الفصحى، "
-        "واللهجة اللبنانية بما فيها الأرابيزي. يستخدم BlenderBot للمحادثة ووحدات NLP مخصصة "
-        "للكشف عن اللغة، وتصنيف النية، وتحليل المشاعر."
+        "واللهجة اللبنانية بما فيها الأرابيزي. يستخدم BlenderBot للإنجليزية، وmT5 للعربية والأرابيزي، "
+        "ووحدات NLP مخصصة للكشف عن اللغة، وتصنيف النية، وتحليل المشاعر."
     ),
     "أخبرني عن لبنان": (
         "لبنان بلد صغير في الشرق الأوسط على ساحل البحر الأبيض المتوسط. يشتهر بتاريخه العريق، "
@@ -401,56 +403,16 @@ ARABIZI_KEYWORD_MAP = [
 ]
 
 ARABIZI_CHITCHAT_PHRASES = {
-    "tamam": [
-        "Mni7! W enta, tamam?",
-        "Hamdellah! Shu 3am bysir ma3ak?",
-        "Ah tamam tamam, allah yesalmak!",
-    ],
-    "mni7": [
-        "Ktir mni7! Shu fi jdid?",
-        "Hamdellah, w enta mni7?",
-        "Allahu akbar, kella mni7!",
-    ],
-    "wallah": [
-        "Wallah sah! Shu baddak t3arraf kamen?",
-        "Eh wallah, 2ellak shu... shu 3am byfakkerak?",
-        "Wallah ktir mni7 hek!",
-    ],
-    "machi": [
-        "Eh machi l7al! Shu akhbarak el ba2i?",
-        "Machi w tamam, hamdellah! Shu fi jdid?",
-        "Ahh machi — mni7! W enta shu akhbarak?",
-    ],
-    "hamdellah": [
-        "Hamdellah dayman! W enta, keefak?",
-        "Ktir mni7, hamdellah! Shu 3am ta3mel?",
-        "Allah yesalmak! W enta shu akhbarak?",
-    ],
-    "yalla": [
-        "Yalla habibi, shu baddak na3mel?",
-        "Yalla inshallah! Shu 3andak bi balik?",
-        "Yalla 2ellak, shu fi?",
-    ],
-    "inshallah": [
-        "Inshallah dayman el kher! Shu baddak?",
-        "Inshallah! Shu 3andak bi balik?",
-        "Inshallah kella tamam! Shu fi jdid?",
-    ],
-    "shu baddak": [
-        "Sa2al w ana hon la sa3dak habibi!",
-        "2ellak shu baddak w bsa3dak!",
-        "Ahla fiik! Shu mumkin a3mol lak?",
-    ],
-    "keefak": [
-        "Ana mni7 hamdellah! W enta, keefak?",
-        "Tamam tamam, shukran! W enta shu akhbarak?",
-        "Hamdellah mni7! Shu fi jdid ma3ak?",
-    ],
-    "kifak": [
-        "Ana mni7 hamdellah! W enta?",
-        "Tamam, shukran! W enta kifak?",
-        "Hamdellah! Shu akhbarak?",
-    ],
+    "tamam":      ["Mni7! W enta, tamam?", "Hamdellah! Shu 3am bysir ma3ak?"],
+    "mni7":       ["Ktir mni7! Shu fi jdid?", "Hamdellah, w enta mni7?"],
+    "wallah":     ["Wallah sah! Shu baddak t3arraf kamen?", "Eh wallah, 2ellak shu..."],
+    "machi":      ["Eh machi l7al! Shu akhbarak el ba2i?", "Machi w tamam, hamdellah!"],
+    "hamdellah":  ["Hamdellah dayman! W enta, keefak?", "Ktir mni7, hamdellah!"],
+    "yalla":      ["Yalla habibi, shu baddak na3mel?", "Yalla inshallah! Shu 3andak bi balik?"],
+    "inshallah":  ["Inshallah dayman el kher! Shu baddak?", "Inshallah kella tamam!"],
+    "shu baddak": ["Sa2al w ana hon la sa3dak habibi!", "2ellak shu baddak w bsa3dak!"],
+    "keefak":     ["Ana mni7 hamdellah! W enta, keefak?", "Tamam tamam, shukran!"],
+    "kifak":      ["Ana mni7 hamdellah! W enta?", "Tamam, shukran! W enta kifak?"],
 }
 
 ARABIZI_FALLBACK_RESPONSES = [
@@ -471,8 +433,6 @@ ARABIC_CHITCHAT_RESPONSES = [
     "تمام تمام، الله يسلمك! شو عم تعمل؟",
     "الحمد لله منيح! وأنت كيفك؟",
     "والله منيح، شكراً! شو في جديد؟",
-    "أنا تمام الحمد لله! وأنت شو أخبارك؟",
-    "منيح كتير! يسلمو، وأنت شو أخبارك؟",
 ]
 
 ARABIZI_GENERIC_CHITCHAT = [
@@ -480,8 +440,6 @@ ARABIZI_GENERIC_CHITCHAT = [
     "Tamam tamam, allah yesalmak! Shu 3am ta3mel?",
     "Hamdellah mni7! W enta, keefak?",
     "Wallah mni7, shukran! Shu fi jdid?",
-    "Ana tamam, hamdellah! W enta shu akhbarak?",
-    "Mni7 ktir! Yeslamo, w enta shu akhbarak?",
 ]
 
 ARABIZI_RESPONSES = {
@@ -490,61 +448,43 @@ ARABIZI_RESPONSES = {
         "Marhaba! Shu akhbarak lyom?",
         "Hala wallah! Keefak ya zalameh?",
         "Hey! Ahla fiik, shu 3am ta3mel?",
-        "Marhaba habibi! Kifak, mni7?",
-        "Sabbaho! Shu akhbar el yom?",
-        "Ahlan! Ana hon la sa3dak, shu baddak?",
-        "Ya ahla w sahla! Keefak el yom?",
     ],
     Intent.FAREWELL: [
         "Yalla bye! Allah ma3ak 👋",
         "Ma3 el salame! Nshallah mne7ke ba3den",
         "Bye habibi! Take care ya zalameh",
-        "Yalla, bkra mne7ke. Tisbah 3a kher!",
-        "Allah y7afzak! Bye bye 👋",
-        "Yalla ma3 el salame, nshallah mne7ke 2arib!",
     ],
     Intent.QUESTION: [
         "Soual mni7! {answer}",
         "Ah, soual 7elo! {answer}",
-        "Ya3ne... {answer}",
         "Hala2 bi jawbak: {answer}",
-        "Mni7 ennak sa2alt! {answer}",
     ],
     Intent.THANKS: [
         "3afwan habibi! Ay wa2et 🌲",
         "Tekram ya zalameh! Ana hon dayman",
-        "La shukr 3a wajeb! Shu baddak kamen?",
-        "3afwan! Btsharrafna fiik",
-        "Ahla fiik! Ma fi shi, ay khedme",
+        "La shukr 3a wajeb!",
     ],
     Intent.COMPLAINT: [
         "Sorry ya zalameh, khalline 7awel sa3dak a7san",
         "Ma3lesh, 7a2ak 3layye. Shu fi2e sa3dak?",
-        "Ah wallah sorry, khalline jarreb marra tanye",
-        "Ma tkun za3lan, 7a7awel a7san el marra el jeye",
     ],
     Intent.FEEDBACK: [
         "Merci 3al feedback! Bi sa3edne ktir",
         "Shukran! Ra7 7awel et7assan",
-        "Mni7 ennak 2eltelle, merci!",
     ],
     Intent.CHITCHAT: [
         "Wallah! {answer}",
         "Eh sah, {answer}",
-        "Ya3ne, {answer}",
         "Ahh mni7 — {answer}",
-        "Hala2 bi 2ellak: {answer}",
     ],
     Intent.REQUEST: [
         "Akid habibi! {answer}",
         "Tab3an: {answer}",
         "Inshallah bsa3dak! {answer}",
-        "Ma3 kell sourour! {answer}",
     ],
     Intent.UNKNOWN: [
         "Hmm, ma fhemet ktir. Fi2ik t3id el soual?",
         "Sorry, ma 2dert efham. Shu 2asdak?",
-        "Msh fahemha ktir, bas fi2ik t3id?",
     ],
 }
 
@@ -553,60 +493,43 @@ ARABIC_RESPONSES = {
         "أهلاً وسهلاً! كيفك اليوم؟ 🌲",
         "مرحبا! شو أخبارك؟",
         "هلا والله! أهلاً فيك",
-        "أهلاً حبيبي! كيف حالك؟",
-        "مرحبا! أنا هون لمساعدتك، شو بدك؟",
-        "يا هلا! كيفك إنشاالله منيح؟",
-        "أهلاً! نورت، شو بقدر ساعدك؟",
     ],
     Intent.FAREWELL: [
         "مع السلامة! الله معك 👋",
         "باي! إنشاالله منحكي بكرا",
         "يلا باي! تصبح على خير",
-        "الله يحفظك! مع السلامة",
-        "يلا مع السلامة! إنشاالله منحكي قريب 👋",
     ],
     Intent.QUESTION: [
         "سؤال منيح! {answer}",
         "هلأ بجاوبك: {answer}",
         "يعني، {answer}",
-        "أه سؤال حلو! {answer}",
-        "منيح إنك سألت! {answer}",
     ],
     Intent.THANKS: [
         "عفواً حبيبي! أي وقت 🌲",
         "تكرم! أنا هون دايماً",
         "لا شكر على واجب!",
-        "أهلاً فيك! أي خدمة",
-        "عفواً! بتشرفنا فيك",
     ],
     Intent.COMPLAINT: [
         "معلش، حقك عليي. شو فيني ساعدك؟",
         "آسف! خليني حاول أحسن المرة الجاية",
-        "والله آسف، خليني جرب مرة تانية",
-        "ما تكون زعلان، رح حاول أحسن",
     ],
     Intent.FEEDBACK: [
         "شكراً عالملاحظات! بتساعدني كتير",
         "ميرسي! رح حاول إتحسن",
-        "منيح إنك قلتلي، شكراً!",
     ],
     Intent.CHITCHAT: [
         "والله! {answer}",
         "إيه صح، {answer}",
-        "يعني، {answer}",
         "آه منيح! {answer}",
-        "هلأ بقلك: {answer}",
     ],
     Intent.REQUEST: [
         "أكيد حبيبي! {answer}",
         "طبعاً! {answer}",
         "إنشاالله بساعدك! {answer}",
-        "إيه مع كل سرور! {answer}",
     ],
     Intent.UNKNOWN: [
         "ما فهمت كتير، فيك تعيد السؤال؟",
         "معلش ما قدرت إفهم، شو قصدك؟",
-        "مش فاهمها كتير، فيك تعيد؟",
     ],
 }
 
@@ -620,10 +543,12 @@ class CedarChatbot:
         max_turns: int = 10,
         max_length: int = 128,
         device: str = "cpu",
+        use_multilingual_decoder: bool = True,
     ):
         self.model_name = model_name or self.DEFAULT_MODEL
         self.max_length = max_length
         self.device = device
+        self.use_multilingual_decoder = use_multilingual_decoder
 
         self.normalizer = ArabiziNormalizer()
         self.lang_detector = LanguageDetector()
@@ -634,6 +559,14 @@ class CedarChatbot:
         self._model = None
         self._tokenizer = None
         self._load_model()
+
+        self.multilingual = None
+        if self.use_multilingual_decoder:
+            try:
+                self.multilingual = MultilingualGenerator(device=device)
+            except Exception as e:
+                logger.warning(f"Multilingual decoder unavailable, falling back to templates: {e}")
+                self.multilingual = None
 
     def _load_model(self):
         try:
@@ -766,21 +699,23 @@ class CedarChatbot:
         is_arabic = lang_result.language in (Language.ARABIC_MSA, Language.LEBANESE_ARABIC)
         is_arabizi = lang_result.language == Language.LEBANESE_ARABIZI
         knowledge_hit = False
+        generator_used = "templates"
 
         if self._is_identity_question(message, lang_result.language) or \
                 (is_arabizi and self._is_identity_question(normalized, Language.LEBANESE_ARABIZI)):
             response_text = self._identity_response(lang_result.language)
             knowledge_hit = True
+            generator_used = "identity_intercept"
 
         elif is_arabic:
-            response_text = self._handle_arabic(message, intent_result)
+            response_text, generator_used = self._handle_arabic(message, intent_result)
             knowledge_hit = intent_result.intent not in (
                 Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
                 Intent.COMPLAINT, Intent.FEEDBACK, Intent.CHITCHAT,
             )
 
         elif is_arabizi:
-            response_text = self._handle_arabizi(message, normalized, intent_result)
+            response_text, generator_used = self._handle_arabizi(message, normalized, intent_result)
             knowledge_hit = intent_result.intent not in (
                 Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
                 Intent.COMPLAINT, Intent.FEEDBACK, Intent.CHITCHAT,
@@ -791,9 +726,11 @@ class CedarChatbot:
             if english_answer:
                 response_text = english_answer
                 knowledge_hit = True
+                generator_used = "knowledge_base"
             else:
                 context = self.memory.get_context(sid)
                 response_text = self._generate(context, message)
+                generator_used = "blenderbot"
 
         self.memory.add_message(sid, "assistant", response_text)
 
@@ -814,54 +751,65 @@ class CedarChatbot:
                     "score": sentiment_result.score,
                 },
                 "model": self.model_name,
+                "generator": generator_used,
                 "response_time_ms": elapsed,
                 "knowledge_hit": knowledge_hit,
             },
         )
 
-    def _handle_arabic(self, message: str, intent_result) -> str:
+    def _handle_arabic(self, message: str, intent_result) -> tuple:
         intent = intent_result.intent
 
         if intent in (Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
                       Intent.COMPLAINT, Intent.FEEDBACK):
-            return self._to_arabic_response("", intent)
+            return self._to_arabic_response("", intent), "templates"
 
-        arabic_answer = self._arabic_knowledge_lookup(message)
-        if arabic_answer:
-            return self._to_arabic_response(arabic_answer, Intent.QUESTION)
+        arabic_fact = self._arabic_knowledge_lookup(message)
+        english_fact = self._knowledge_lookup(message) if not arabic_fact else None
+        grounding = arabic_fact or english_fact or ""
 
-        english_answer = self._knowledge_lookup(message)
-        if english_answer:
-            return self._to_arabic_response(english_answer, Intent.QUESTION)
+        if self.multilingual:
+            generated = self.multilingual.generate_arabic(message, context_fact=grounding)
+            if generated and len(generated) > 8:
+                return generated, "mt5_decoder"
 
+        if arabic_fact:
+            return self._to_arabic_response(arabic_fact, Intent.QUESTION), "templates+kb"
+        if english_fact:
+            return self._to_arabic_response(english_fact, Intent.QUESTION), "templates+kb"
         if intent == Intent.CHITCHAT:
-            return random.choice(ARABIC_CHITCHAT_RESPONSES)
+            return random.choice(ARABIC_CHITCHAT_RESPONSES), "templates"
 
-        return random.choice(ARABIC_FALLBACK_RESPONSES)
+        return random.choice(ARABIC_FALLBACK_RESPONSES), "templates"
 
-    def _handle_arabizi(self, message: str, normalized: str, intent_result) -> str:
+    def _handle_arabizi(self, message: str, normalized: str, intent_result) -> tuple:
         intent = intent_result.intent
 
         if intent in (Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
                       Intent.COMPLAINT, Intent.FEEDBACK):
-            return self._to_arabizi_response("", intent)
+            return self._to_arabizi_response("", intent), "templates"
 
-        arabizi_answer = self._arabizi_knowledge_lookup(message)
-        if arabizi_answer:
-            return self._to_arabizi_response(arabizi_answer, Intent.QUESTION)
+        arabizi_fact = self._arabizi_knowledge_lookup(message)
+        arabic_fact = self._arabic_knowledge_lookup(normalized) if not arabizi_fact else None
+        grounding = arabizi_fact or arabic_fact or ""
 
-        arabic_answer = self._arabic_knowledge_lookup(normalized)
-        if arabic_answer:
-            return self._to_arabizi_response(arabic_answer, Intent.QUESTION)
+        if self.multilingual:
+            generated = self.multilingual.generate_arabizi(message, normalized=normalized, context_fact=grounding)
+            if generated and len(generated) > 8:
+                return generated, "mt5_decoder"
+
+        if arabizi_fact:
+            return self._to_arabizi_response(arabizi_fact, Intent.QUESTION), "templates+kb"
+        if arabic_fact:
+            return self._to_arabizi_response(arabic_fact, Intent.QUESTION), "templates+kb"
 
         chitchat_response = self._arabizi_chitchat_lookup(message)
         if chitchat_response:
-            return chitchat_response
-
+            return chitchat_response, "templates"
         if intent == Intent.CHITCHAT:
-            return random.choice(ARABIZI_GENERIC_CHITCHAT)
+            return random.choice(ARABIZI_GENERIC_CHITCHAT), "templates"
 
-        return random.choice(ARABIZI_FALLBACK_RESPONSES)
+        return random.choice(ARABIZI_FALLBACK_RESPONSES), "templates"
 
     def _to_arabic_response(self, raw_response: str, intent: Intent) -> str:
         templates = ARABIC_RESPONSES.get(intent, ARABIC_RESPONSES[Intent.CHITCHAT])
@@ -918,5 +866,6 @@ class CedarChatbot:
         return {
             "model": self.model_name,
             "device": self.device,
+            "multilingual_decoder": "mt5-small" if self.multilingual else "disabled",
             **self.memory.get_stats(),
         }
