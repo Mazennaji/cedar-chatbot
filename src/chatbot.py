@@ -542,6 +542,43 @@ ARABIC_RESPONSES = {
 }
 
 
+ENGLISH_RESPONSES = {
+    Intent.GREETING: [
+        "Hello! I'm Cedar 🌲 — how can I help you today?",
+        "Hi there! Ask me anything about AI, NLP, or languages.",
+        "Hey! I'm Cedar, your trilingual assistant. What's on your mind?",
+        "Welcome! I can chat in English, Arabic, and Lebanese Arabizi. How can I help?",
+    ],
+    Intent.FAREWELL: [
+        "Goodbye! Come back anytime 🌲",
+        "Take care! Feel free to return with more questions.",
+        "See you later! 👋",
+        "Bye for now — it was nice talking with you!",
+    ],
+    Intent.THANKS: [
+        "You're welcome! Happy to help 🌲",
+        "Anytime! Let me know if you need anything else.",
+        "My pleasure! What else can I do for you?",
+        "Glad I could help!",
+    ],
+    Intent.COMPLAINT: [
+        "I'm sorry about that — let me try to help better.",
+        "Apologies! Could you tell me more so I can assist?",
+        "You're right, let me try again.",
+    ],
+    Intent.FEEDBACK: [
+        "Thanks for the feedback — it helps me improve!",
+        "Appreciate it! I'll keep working to do better.",
+        "Thank you for letting me know!",
+    ],
+    Intent.CHITCHAT: [
+        "I'm doing well, thanks for asking! How about you?",
+        "All good here 🌲 — what would you like to talk about?",
+        "I'm just here ready to help! What's up?",
+    ],
+}
+
+
 class CedarChatbot:
     DEFAULT_MODEL = "facebook/blenderbot-400M-distill"
 
@@ -743,11 +780,18 @@ class CedarChatbot:
             )
 
         else:
+            social_intents = (
+                Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
+                Intent.COMPLAINT, Intent.FEEDBACK,
+            )
             english_answer = self._knowledge_lookup(message)
             if english_answer:
                 response_text = english_answer
                 knowledge_hit = True
                 generator_used = "knowledge_base"
+            elif intent_result.intent in social_intents:
+                response_text = random.choice(ENGLISH_RESPONSES[intent_result.intent])
+                generator_used = "templates"
             else:
                 context = self.memory.get_context(sid)
                 response_text = self._generate(context, message)
