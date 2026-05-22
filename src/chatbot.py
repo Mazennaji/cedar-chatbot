@@ -403,6 +403,14 @@ ARABIZI_KEYWORD_MAP = [
 ]
 
 ARABIZI_CHITCHAT_PHRASES = {
+    "3afye":      ["Allah y3afik! 🌲", "Allah y3afik, yslamo!", "Yslamo! Allah y3afik."],
+    "3afe":       ["Allah y3afik! 🌲", "Allah y3afik, yslamo!"],
+    "yslamo":     ["Allah ysallmak! 🌲", "Tslam! Ahla fiik."],
+    "yeslamo":    ["Allah ysallmak! 🌲", "Tslam! Ahla fiik."],
+    "sahtein":    ["3a albak! 🌲", "Sahtein 3aleik!"],
+    "mabrouk":    ["Allah ybarek fik! 🌲", "Yeslamo, Allah ybarek!"],
+    "n3eeman":    ["Na3iman 3aleik! 🌲", "Allah yn3am 3aleik!"],
+    "tslam":      ["Tslam ana kamen! 🌲", "Yslamo, Allah y5allik!"],
     "tamam":      ["Mni7! W enta, tamam?", "Hamdellah! Shu 3am bysir ma3ak?"],
     "mni7":       ["Ktir mni7! Shu fi jdid?", "Hamdellah, w enta mni7?"],
     "wallah":     ["Wallah sah! Shu baddak t3arraf kamen?", "Eh wallah, 2ellak shu..."],
@@ -666,6 +674,19 @@ class CedarChatbot:
                 return random.choice(responses)
         return None
 
+    @staticmethod
+    def _is_echo(generated: str, *sources: str) -> bool:
+        g = generated.lower().strip().rstrip("?!.,؟،")
+        if len(g) < 9:
+            return True
+        for src in sources:
+            if not src:
+                continue
+            s = src.lower().strip().rstrip("?!.,؟،")
+            if g == s or g in s or s in g:
+                return True
+        return False
+
     def chat(
         self,
         message: str,
@@ -770,7 +791,7 @@ class CedarChatbot:
 
         if self.multilingual:
             generated = self.multilingual.generate_arabic(message, context_fact=grounding)
-            if generated and len(generated) > 8:
+            if generated and not self._is_echo(generated, message):
                 return generated, "mt5_decoder"
 
         if arabic_fact:
@@ -789,13 +810,17 @@ class CedarChatbot:
                       Intent.COMPLAINT, Intent.FEEDBACK):
             return self._to_arabizi_response("", intent), "templates"
 
+        chitchat_response = self._arabizi_chitchat_lookup(message)
+        if chitchat_response:
+            return chitchat_response, "templates"
+
         arabizi_fact = self._arabizi_knowledge_lookup(message)
         arabic_fact = self._arabic_knowledge_lookup(normalized) if not arabizi_fact else None
         grounding = arabizi_fact or arabic_fact or ""
 
         if self.multilingual:
             generated = self.multilingual.generate_arabizi(message, normalized=normalized, context_fact=grounding)
-            if generated and len(generated) > 8:
+            if generated and not self._is_echo(generated, message, normalized):
                 return generated, "mt5_decoder"
 
         if arabizi_fact:
@@ -803,9 +828,6 @@ class CedarChatbot:
         if arabic_fact:
             return self._to_arabizi_response(arabic_fact, Intent.QUESTION), "templates+kb"
 
-        chitchat_response = self._arabizi_chitchat_lookup(message)
-        if chitchat_response:
-            return chitchat_response, "templates"
         if intent == Intent.CHITCHAT:
             return random.choice(ARABIZI_GENERIC_CHITCHAT), "templates"
 
