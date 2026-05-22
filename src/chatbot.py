@@ -403,6 +403,15 @@ ARABIZI_KEYWORD_MAP = [
 ]
 
 ARABIZI_CHITCHAT_PHRASES = {
+    "shu 3am ta3mel":  ["Ana hon 3am sa3ed el nas! Shu fik bsa3dak?", "3am ne7ke ma3ak! Shu baddak ta3ref?"],
+    "shu 3am ti3mel":  ["Ana hon 3am sa3ed el nas! Shu fik bsa3dak?", "3am ne7ke ma3ak! Shu baddak ta3ref?"],
+    "shu 3am ta3mle":  ["Ana hon 3am sa3ed el nas! Shu fik bsa3dak?", "3am ne7ke ma3ak! Shu baddak ta3ref?"],
+    "shu fik":         ["Ana mni7 hamdellah! W enta?", "Tamam! Shu baddak?"],
+    "shu akhbarak":    ["Kello tamam hamdellah! W enta shu akhbarak?", "Mni7 ktir! Shu fi jdid ma3ak?"],
+    "shu el akhbar":   ["Kello tamam! W enta shu akhbarak?", "Mni7 hamdellah! Shu fi jdid?"],
+    "shu fi jdid":     ["Wallah kell shi tamam! W enta?", "Ma fi shi jdid ktir, w enta shu 3amel?"],
+    "wenak":           ["Ana hon dayman! Shu baddak?", "Mawjoud! Shu fik bsa3dak?"],
+    "waynak":          ["Ana hon dayman! Shu baddak?", "Mawjoud! Shu fik bsa3dak?"],
     "3afye":      ["Allah y3afik! 🌲", "Allah y3afik, yslamo!", "Yslamo! Allah y3afik."],
     "3afe":       ["Allah y3afik! 🌲", "Allah y3afik, yslamo!"],
     "yslamo":     ["Allah ysallmak! 🌲", "Tslam! Ahla fiik."],
@@ -859,18 +868,17 @@ class CedarChatbot:
             return chitchat_response, "templates"
 
         arabizi_fact = self._arabizi_knowledge_lookup(message)
-        arabic_fact = self._arabic_knowledge_lookup(normalized) if not arabizi_fact else None
-        grounding = arabizi_fact or arabic_fact or ""
-
-        if self.multilingual:
-            generated = self.multilingual.generate_arabizi(message, normalized=normalized, context_fact=grounding)
-            if generated and not self._is_echo(generated, message, normalized):
-                return generated, "mt5_decoder"
-
         if arabizi_fact:
             return self._to_arabizi_response(arabizi_fact, Intent.QUESTION), "templates+kb"
+
+        arabic_fact = self._arabic_knowledge_lookup(normalized)
         if arabic_fact:
             return self._to_arabizi_response(arabic_fact, Intent.QUESTION), "templates+kb"
+
+        if self.multilingual:
+            generated = self.multilingual.generate_arabizi(message, normalized=normalized, context_fact="")
+            if generated and not self._is_echo(generated, message, normalized):
+                return generated, "mt5_decoder"
 
         if intent == Intent.CHITCHAT:
             return random.choice(ARABIZI_GENERIC_CHITCHAT), "templates"
