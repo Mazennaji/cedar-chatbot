@@ -421,7 +421,7 @@ ARABIZI_CHITCHAT_PHRASES = {
     "n3eeman":    ["Na3iman 3aleik! 🌲", "Allah yn3am 3aleik!"],
     "tslam":      ["Tslam ana kamen! 🌲", "Yslamo, Allah y5allik!"],
     "tamam":      ["Mni7! W enta, tamam?", "Hamdellah! Shu 3am bysir ma3ak?"],
-    "mni7":       ["Ktir mni7! Shu fi jdid?", "Hamdellah, w enta mni7?"],
+    "mni7":       ["Ktir mni7! Shu fi jdid?", "Ktir mni7! Shu 3am ta3mel?"],
     "wallah":     ["Wallah sah! Shu baddak t3arraf kamen?", "Eh wallah, 2ellak shu..."],
     "machi":      ["Eh machi l7al! Shu akhbarak el ba2i?", "Machi w tamam, hamdellah!"],
     "hamdellah":  ["Hamdellah dayman! W enta, keefak?", "Ktir mni7, hamdellah!"],
@@ -859,13 +859,13 @@ class CedarChatbot:
     def _handle_arabizi(self, message: str, normalized: str, intent_result) -> tuple:
         intent = intent_result.intent
 
-        if intent in (Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
-                      Intent.COMPLAINT, Intent.FEEDBACK):
-            return self._to_arabizi_response("", intent), "templates"
-
         chitchat_response = self._arabizi_chitchat_lookup(message)
         if chitchat_response:
             return chitchat_response, "templates"
+
+        if intent in (Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
+                      Intent.COMPLAINT, Intent.FEEDBACK):
+            return self._to_arabizi_response("", intent), "templates"
 
         arabizi_fact = self._arabizi_knowledge_lookup(message)
         if arabizi_fact:
