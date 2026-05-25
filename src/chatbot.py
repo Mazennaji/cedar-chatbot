@@ -733,6 +733,19 @@ class CedarChatbot:
                 return True
         return False
 
+    @staticmethod
+    def _looks_like_social(message: str) -> bool:
+        cleaned = message.lower().strip().rstrip("?!.,؟،")
+        words = cleaned.split()
+        if len(words) <= 4:
+            return True
+        topic_markers = (
+            "shu", "what", "explain", "ishra7", "esra7", "2elli", "elli",
+            "7akine", "7kini", "3an", "about", "ma hu", "ما هو", "ما هي",
+            "اشرح", "حدثني", "عن",
+        )
+        return not any(m in cleaned for m in topic_markers)
+
     def chat(
         self,
         message: str,
@@ -835,7 +848,7 @@ class CedarChatbot:
         intent = intent_result.intent
 
         if intent in (Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
-                      Intent.COMPLAINT, Intent.FEEDBACK):
+                      Intent.COMPLAINT, Intent.FEEDBACK) and self._looks_like_social(message):
             return self._to_arabic_response("", intent), "templates"
 
         arabic_fact = self._arabic_knowledge_lookup(message)
@@ -864,7 +877,7 @@ class CedarChatbot:
             return chitchat_response, "templates"
 
         if intent in (Intent.GREETING, Intent.FAREWELL, Intent.THANKS,
-                      Intent.COMPLAINT, Intent.FEEDBACK):
+                      Intent.COMPLAINT, Intent.FEEDBACK) and self._looks_like_social(message):
             return self._to_arabizi_response("", intent), "templates"
 
         arabizi_fact = self._arabizi_knowledge_lookup(message)
